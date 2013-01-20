@@ -1,14 +1,23 @@
 package com.daniel.framework;
 
 
+import com.daniel.demo.SquareScreen;
+
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
 
 public class AndroidGLView extends GLSurfaceView {
    
+   public AndroidGLRenderer renderer;
+   public AndroidGame androidGame;
+   
 
-   public AndroidGLView(Context context, AndroidGLRenderer renderer) {
-      super(context);
+   public AndroidGLView(AndroidGame game) {
+      super(game);
+      
+      androidGame = game;
+      renderer = new AndroidGLRenderer( androidGame );
       
       // Create an OpenGL ES 2.0 context.
       setEGLContextClientVersion(2);
@@ -19,6 +28,18 @@ public class AndroidGLView extends GLSurfaceView {
 
       // Render the view only when there is a change in the drawing data
       setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);      
+   }
+   
+   
+   @Override
+   public boolean onTouchEvent(MotionEvent e) {
+      switch(e.getAction()) {
+         case MotionEvent.ACTION_UP: 
+         //this.renderer.androidGame.setScreen( this.renderer.squareScreen );
+         this.renderer.androidGame.setScreen( new SquareScreen(null) );
+         requestRender();
+      }
+      return true;   
    }
 
 }

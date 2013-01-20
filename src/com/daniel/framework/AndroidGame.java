@@ -20,9 +20,11 @@ public abstract class AndroidGame extends Activity {
    
    public AndroidScreen androidScreen;
    public AndroidGLView androidView;
-   public AndroidGLRenderer androidRenderer;
    public AndroidGraphics androidGraphics;
    public WakeLock wakeLock;
+   
+   public int width;
+   public int height;
    
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,11 @@ public abstract class AndroidGame extends Activity {
       Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Config.RGB_565);
       androidGraphics = new AndroidGraphics( this.getAssets(), frameBuffer);
       
-      androidRenderer = new AndroidGLRenderer(this);
-      androidView = new AndroidGLView(this, androidRenderer);
+      androidView = new AndroidGLView(this);
       
       // Set up the rendering screen
-      this.setInitScreen();
       this.setContentView(androidView);
+      this.setInitScreen();
       
       // Keep the screen on please
       this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
