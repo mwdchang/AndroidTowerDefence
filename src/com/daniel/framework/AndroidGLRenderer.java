@@ -44,7 +44,7 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
       androidGame = game;
    }
    
-   @Override
+   @Override 
    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
       // Set the background frame color
       GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

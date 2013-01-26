@@ -5,11 +5,13 @@ import android.opengl.Matrix;
 
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
+import com.daniel.framework.graphics.ImageTexture;
 import com.daniel.framework.graphics.Polygon;
+import com.daniel.framework.graphics.BaseTexture;
 
 public class SquareScreen extends AndroidScreen {
    
-   public Polygon square;
+   public ImageTexture img;
    public float[] mMVPMatrix = new float[16];
    public float[] mProjMatrix = new float[16];
    public float[] mVMatrix = new float[16];
@@ -18,17 +20,9 @@ public class SquareScreen extends AndroidScreen {
    
    public SquareScreen(AndroidGame game) {
       this.androidGame = game;
-      square= new Polygon();   
-      square   = new Polygon();
-      square.setCoord(
-            new float[]{ -0.5f,  0.5f, 0.0f,   // top left
-                -0.5f, -0.5f, 0.0f,   // bottom left
-                 0.5f, -0.5f, 0.0f,   // bottom right
-                 0.5f,  0.5f, 0.0f } // top right
-      );
-      square.setDrawOrder(new short[]{ 0, 1, 2, 0, 2, 3 });
-      //mSquare.setDrawOrder(new short[]{ 0, 1, 2});
-      square.setColour(0.0f, 1.0f, 1.0f, 1.0f);      
+      img= new ImageTexture(game);   
+      img.setDimension(0.2f, 0.2f, 1.0f, 1.0f);
+      img.loadGLTexture("IMG_5656.JPG");
    }   
 
    @Override
@@ -44,15 +38,13 @@ public class SquareScreen extends AndroidScreen {
       // Set the camera position (View matrix)
       //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
       Matrix.orthoM(mProjMatrix, 0, -1, 1, -1, 1, -1, 1);
-      Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+      Matrix.setLookAtM(mVMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
       // Calculate the projection and view transformation
       Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
 
-      //mTriangle.setColor( (float)mAngle/360.0f, 0.5f, 0.5f);
-      //mTriangle.draw(mMVPMatrix);
-      square.matrix = mMVPMatrix;      
-      square.render();
+      img.matrix = mMVPMatrix;      
+      img.render();
    }
 
    @Override

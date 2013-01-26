@@ -10,5 +10,11 @@ public class DemoGame extends AndroidGame {
       this.androidScreen = new TriangleScreen( this );
       System.out.println("Setting initial screen...");
    }
+   
+   @Override
+   public void onStop() {
+      super.onStop();
+      this.setScreen( this.androidView.renderer.triangleScreen );
+   }
 
 }

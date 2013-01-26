@@ -66,13 +66,14 @@ public class Polygon {
       GLES20.glUniform4fv(colourHandle, 1, colour, 0);
       GLES20.glUniformMatrix4fv(matrixHandle, 1, false, matrix, 0);
       
-      GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
       //GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
       
       if (drawListBuffer == null)
-         GLES20.glDisableVertexAttribArray(positionHandle);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
       else
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawCount, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+      
+      GLES20.glDisableVertexAttribArray(positionHandle);
       shaderObj.unbind();
    }
    
