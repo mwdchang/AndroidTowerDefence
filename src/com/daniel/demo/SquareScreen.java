@@ -20,10 +20,13 @@ public class SquareScreen extends AndroidScreen {
    
    public SquareScreen(AndroidGame game) {
       this.androidGame = game;
-      img= new ImageTexture(game);   
+   }   
+   
+   public void init() {
+      img= new ImageTexture(androidGame);   
       img.setDimension(0.2f, 0.2f, 1.0f, 1.0f);
       img.loadGLTexture("IMG_5656.JPG");
-   }   
+   }
 
    @Override
    public void update(float dTime) {
@@ -46,6 +49,7 @@ public class SquareScreen extends AndroidScreen {
       img.matrix = mMVPMatrix;      
       img.render();
    }
+   
 
    @Override
    public void pause() {

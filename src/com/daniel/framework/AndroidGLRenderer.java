@@ -32,13 +32,6 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
 
    private static final String TAG = "MyGLRenderer";
     
-   
-   // Screens 
-   public TriangleScreen triangleScreen;
-   public SquareScreen squareScreen;
-
-   // Declare as volatile because we are updating it from another thread
-   public volatile float mAngle;
     
    public AndroidGLRenderer(AndroidGame game) {
       androidGame = game;
@@ -49,14 +42,16 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
       // Set the background frame color
       GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
       
-      triangleScreen = new TriangleScreen(androidGame);
-      squareScreen = new SquareScreen(androidGame);
-      androidGame.setScreen(triangleScreen);
    }
    
    
    @Override
    public void onDrawFrame(GL10 unused) {
+      // Check if anything needs initialization
+      if (false ==androidGame.androidScreen.doneInit) {
+         androidGame.androidScreen.init();
+         androidGame.androidScreen.doneInit = true;
+      }
       androidGame.androidScreen.render(0);   
    }
 
@@ -66,9 +61,7 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
         // Adjust the viewport based on geometry changes,
         // such as screen rotation
         GLES20.glViewport(0, 0, width, height);
-
         float ratio = (float) width / height;
-
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
         //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);

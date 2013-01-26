@@ -35,7 +35,8 @@ public class AndroidGLView extends GLSurfaceView {
    public boolean onTouchEvent(MotionEvent e) {
       switch(e.getAction()) {
          case MotionEvent.ACTION_UP: 
-         this.renderer.androidGame.setScreen( this.renderer.squareScreen );
+         androidGame.setScreen( androidGame.androidScreen.next );
+         
          //this.renderer.androidGame.setScreen( new SquareScreen(null) );
          requestRender();
       }

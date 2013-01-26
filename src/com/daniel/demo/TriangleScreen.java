@@ -18,6 +18,10 @@ public class TriangleScreen extends AndroidScreen {
    
    public TriangleScreen(AndroidGame game) {
       this.androidGame = game;
+   }
+   
+   
+   public void init() {
       triangle = new Polygon();   
       triangle.setCoord(
             new float[]{ 
@@ -26,6 +30,7 @@ public class TriangleScreen extends AndroidScreen {
                 0.5f, -0.311004243f, 0.0f }
       );
       triangle.setColour(0.5f, 0.2f, 0.2f, 1.0f);      
+     
    }
    
 
@@ -58,6 +63,7 @@ public class TriangleScreen extends AndroidScreen {
       triangle.matrix = mMVPMatrix;
       triangle.render();      
    }
+   
 
    @Override
    public void pause() {
