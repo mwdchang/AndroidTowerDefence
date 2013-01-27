@@ -25,7 +25,9 @@ public class SquareScreen extends AndroidScreen {
    public void init() {
       img= new ImageTexture(androidGame);   
       img.setDimension(0.2f, 0.2f, 1.0f, 1.0f);
-      img.loadGLTexture("IMG_5656.JPG");
+      img.textureID = DemoLoader.TX_DEMO;
+            
+      //img.loadGLTexture("IMG_5656.JPG");
    }
 
    @Override

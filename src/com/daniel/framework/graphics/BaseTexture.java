@@ -26,74 +26,11 @@ public class BaseTexture {
    public BaseTexture(AndroidGame game) {
       androidGame = game;
       //textureID = loadGLTexture(R.drawable.ic_launcher);
-      textureID = loadGLTexture("IMG_5656.JPG");
+      //textureID = loadGLTexture("IMG_5656.JPG");
       initShader();
    }
    
-   ////////////////////////////////////////////////////////////////////////////////   
-   // Load a texture by dynamically specifying a name
-   // Note: case matters, the specified filename must match the resource name
-   ////////////////////////////////////////////////////////////////////////////////   
-   public int loadGLTexture(String filename) {
-      int[] textures = new int[1];
-      
-      // loading texture
-      InputStream is = null;
-      try {
-         System.out.println(">>>> " + androidGame.getAssets());
-         String list[] = androidGame.getAssets().list("");
-         for (String s : list) {
-           System.out.println(">>> " + s );
-         }
-         
-         is = androidGame.getAssets().open(filename);
-      } catch (Exception e) {}
-      
-      Bitmap bitmap = BitmapFactory.decodeStream( is );
-      
-      // generate one texture pointer
-      GLES20.glGenTextures(1, textures, 0);
-      // ...and bind it to our array
-      GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);
-      
-      // create nearest filtered texture
-      GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-      GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-      
-      // Use Android GLUtils to specify a two-dimensional texture image from our bitmap 
-      GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-      
-      // Clean up
-      bitmap.recycle();
-      
-      return textures[0];
-   }
-   
-   ////////////////////////////////////////////////////////////////////////////////   
-   // Load a texture by a static resource identifier
-   ////////////////////////////////////////////////////////////////////////////////   
-   public int loadGLTexture(int resourceID) {
-      int[] textures = new int[1];
-      
-      // loading texture
-      Bitmap bitmap = BitmapFactory.decodeResource(androidGame.getResources(), resourceID);
-      
-      // generate one texture pointer
-      GLES20.glGenTextures(1, textures, 0);
-      // ...and bind it to our array
-      GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);
-      
-      // create nearest filtered texture
-      GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-      GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-      
-      // Use Android GLUtils to specify a two-dimensional texture image from our bitmap 
-      GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-      
-      // Clean up
-      bitmap.recycle();
-      return textures[0];
-   }
+
    
    
    //////////////////////////////////////////////////////////////////////////////// 

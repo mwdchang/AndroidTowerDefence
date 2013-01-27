@@ -1,6 +1,10 @@
 package com.daniel.framework;
+import com.daniel.framework.graphics.AssetLoader;
+
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ConfigurationInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -21,10 +25,20 @@ public abstract class AndroidGame extends Activity {
    public AndroidScreen androidScreen;
    public AndroidGLView androidView;
    public AndroidGraphics androidGraphics;
-   public WakeLock wakeLock;
+   //public WakeLock wakeLock;
    
    public int width;
    public int height;
+   
+   
+   private boolean detectOpenGLES20() {
+      ActivityManager am =
+          (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+      ConfigurationInfo info = am.getDeviceConfigurationInfo();
+      System.out.println(">>>> " + info.reqGlEsVersion );
+      return (info.reqGlEsVersion >= 0x20000);
+   }
+   
    
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +55,14 @@ public abstract class AndroidGame extends Activity {
       Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Config.RGB_565);
       androidGraphics = new AndroidGraphics( this.getAssets(), frameBuffer);
       
+      if (this.detectOpenGLES20()) {
+         System.out.println(">>>> OpenGL ES20 detected");   
+      } else {
+         System.out.println(">>>> OpenGL ES20 NOT detected");   
+      }
+      
       androidView = new AndroidGLView(this);
+      
       
       // Set up the rendering screen
       this.setContentView(androidView);
@@ -52,6 +73,7 @@ public abstract class AndroidGame extends Activity {
       
       //PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
       //wakeLock = powerManager.newWakeLock(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, "AndroidGame");      
+      this.detectOpenGLES20();
    }
    
    @Override

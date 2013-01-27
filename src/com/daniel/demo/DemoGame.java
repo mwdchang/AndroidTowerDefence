@@ -6,11 +6,13 @@ public class DemoGame extends AndroidGame {
    
    public TriangleScreen triangle = new TriangleScreen(this);
    public SquareScreen square = new SquareScreen(this);
+   public LoadingScreen loader = new LoadingScreen(this);
    
    public DemoGame() {
       super();
       
       // Setup navigation
+      loader.next = triangle;
       triangle.next = square;
       square.next = square;
       
@@ -20,14 +22,14 @@ public class DemoGame extends AndroidGame {
    @Override
    public void setInitScreen() {
       // TODO Auto-generated method stub
-      this.androidScreen = triangle;
+      this.androidScreen = loader;
       System.out.println("Setting initial screen...");
    }
    
    @Override
    public void onStop() {
       super.onStop();
-      this.setScreen( new TriangleScreen( this ) );
+      this.setScreen( loader );
    }
 
 }

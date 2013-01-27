@@ -52,6 +52,8 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
          androidGame.androidScreen.init();
          androidGame.androidScreen.doneInit = true;
       }
+      
+      androidGame.androidScreen.update(0);
       androidGame.androidScreen.render(0);   
    }
 
@@ -65,6 +67,11 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
         //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        androidGame.width = width;
+        androidGame.height = height;
+        
+        System.out.println("=== " + androidGame.width);
+        System.out.println("=== " + androidGame.height);
    }
    
 

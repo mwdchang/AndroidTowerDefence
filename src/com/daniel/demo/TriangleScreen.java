@@ -30,7 +30,7 @@ public class TriangleScreen extends AndroidScreen {
                 0.5f, -0.311004243f, 0.0f }
       );
       triangle.setColour(0.5f, 0.2f, 0.2f, 1.0f);      
-     
+      this.doneInit = true;
    }
    
 
@@ -46,21 +46,22 @@ public class TriangleScreen extends AndroidScreen {
       // Set the camera position (View matrix)
       //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
       Matrix.orthoM(mProjMatrix, 0, -1, 1, -1, 1, -1, 1);
-      Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+      //Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
       // Calculate the projection and view transformation
-      Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
+      //Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
 
 
       // Create a rotation for the triangle
-      Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
+      //Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
 
       // Combine the rotation matrix with the projection and camera view
-      Matrix.multiplyMM(mMVPMatrix, 0, mRotationMatrix, 0, mMVPMatrix, 0);
+      //Matrix.multiplyMM(mMVPMatrix, 0, mRotationMatrix, 0, mMVPMatrix, 0);
 
       //mTriangle.setColor( (float)mAngle/360.0f, 0.5f, 0.5f);
       //mTriangle.draw(mMVPMatrix);
-      triangle.matrix = mMVPMatrix;
+      //triangle.matrix = mMVPMatrix;
+      triangle.matrix = mProjMatrix;
       triangle.render();      
    }
    

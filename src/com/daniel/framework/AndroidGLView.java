@@ -3,7 +3,9 @@ package com.daniel.framework;
 
 import com.daniel.demo.SquareScreen;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
@@ -28,7 +30,12 @@ public class AndroidGLView extends GLSurfaceView {
 
       // Render the view only when there is a change in the drawing data
       setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);      
+      
    }
+   
+   
+
+
    
    
    @Override
