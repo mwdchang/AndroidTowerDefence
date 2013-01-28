@@ -48,6 +48,7 @@ public class Polygon {
    }
    
    public void initShader() {
+      //System.out.println(">>>>> In polygon init shader");
       shaderObj = new ShaderObj();
       shaderObj.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
       shaderObj.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
@@ -68,10 +69,13 @@ public class Polygon {
       
       //GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
       
-      if (drawListBuffer == null)
+      if (drawListBuffer == null) {
+         //System.out.println(">>> Draw array");
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
-      else
+      } else {
+         //System.out.println(">>> Draw element");
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawCount, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+      }
       
       GLES20.glDisableVertexAttribArray(positionHandle);
       shaderObj.unbind();
@@ -105,11 +109,13 @@ public class Polygon {
          "attribute vec4 vPosition;" +
          "void main() {" +
          // the matrix must be included as a modifier of gl_Position
-         "  gl_Position = vPosition * uMVPMatrix;" +
+         //"  gl_Position = vPosition * uMVPMatrix;" +
+         //"  gl_Position = vPosition;" +
+         "  gl_Position = uMVPMatrix * vPosition;" +
          "}";
 
      private final String fragmentShaderCode =
-         "precision mediump float;" +
+         //"precision mediump float;" +
          "uniform vec4 vColor;" +
          "void main() {" +
          "  gl_FragColor = vColor;" +
