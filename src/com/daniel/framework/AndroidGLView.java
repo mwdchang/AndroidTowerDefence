@@ -2,11 +2,13 @@ package com.daniel.framework;
 
 
 import com.daniel.demo.SquareScreen;
+import com.daniel.framework.graphics.Util;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class AndroidGLView extends GLSurfaceView {
@@ -35,18 +37,20 @@ public class AndroidGLView extends GLSurfaceView {
    
    
 
-
-   
    
    @Override
    public boolean onTouchEvent(MotionEvent e) {
+      // Do Not touch !!!
+      /*
       switch(e.getAction()) {
          case MotionEvent.ACTION_UP: 
-         androidGame.setScreen( androidGame.androidScreen.next );
-         
-         //this.renderer.androidGame.setScreen( new SquareScreen(null) );
-         requestRender();
+            androidGame.setScreen( androidGame.androidScreen.next );
+            float ncoord[] = Util.screen2normal(androidGame, new float[]{ e.getX(), e.getY()});
+            Log.i("Touch", ncoord[0] + ", " + ncoord[1]);
       }
+      */
+      
+      requestRender();
       return true;   
    }
 

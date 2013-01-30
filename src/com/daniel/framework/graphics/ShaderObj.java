@@ -26,9 +26,12 @@ public class ShaderObj {
       // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
       int shader = GLES20.glCreateShader(type);
       
+      String t = "";
+      if (type == GLES20.GL_VERTEX_SHADER) t = "Vertex"; else t = "Frag" ;
+      
       // add the source code to the shader and compile it
       GLES20.glShaderSource(shader, shaderCode);
-      ShaderObj.checkGlError("SRC");
+      ShaderObj.checkGlError("SRC " + t + ": ");
       
       GLES20.glCompileShader(shader);
       ShaderObj.checkGlError("Compile");

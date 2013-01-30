@@ -25,6 +25,8 @@ public abstract class AndroidGame extends Activity {
    public AndroidScreen androidScreen;
    public AndroidGLView androidView;
    public AndroidGraphics androidGraphics;
+   public AndroidTouchHandler androidTouchHandler;
+   
    //public WakeLock wakeLock;
    
    public int width;
@@ -63,6 +65,8 @@ public abstract class AndroidGame extends Activity {
       
       androidView = new AndroidGLView(this);
       
+      // Setup input and touch handlers
+      androidTouchHandler = new AndroidTouchHandler( androidView );
       
       // Set up the rendering screen
       this.setContentView(androidView);
