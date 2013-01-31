@@ -7,18 +7,19 @@ import com.daniel.framework.AndroidGame;
 
 public class DemoGame extends AndroidGame {
    
+   /*
    public TriangleScreen triangle = new TriangleScreen(this);
    public SquareScreen square = new SquareScreen(this);
+   */
    public LoadingScreen loader = new LoadingScreen(this);
+   public LoadingScreen2 loader2 = new LoadingScreen2(this);
    
    public DemoGame() {
       super();
       
       // Setup navigation
-      loader.next = triangle;
-      triangle.next = square;
-      square.next = square;
-      
+      loader.next = loader2;
+      loader2.next = loader;
       
 
    }

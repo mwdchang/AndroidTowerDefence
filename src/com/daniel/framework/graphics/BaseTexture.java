@@ -149,7 +149,8 @@ public class BaseTexture {
          "varying vec2 outTexcoord; " + 
          "void main() {" +
          "  outTexcoord = inTexcoord;" +
-         "  gl_Position = inPosition * uMVPMatrix;" +
+         //"  gl_Position = inPosition * uMVPMatrix;" +
+         "  gl_Position = uMVPMatrix * inPosition;" +
          "}";
 
      private final String fragmentShaderCode =
