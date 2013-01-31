@@ -7,8 +7,8 @@ import com.daniel.framework.AndroidGame;
 ////////////////////////////////////////////////////////////////////////////////
 public class ImageTexture extends BaseTexture {
 
-   public ImageTexture(AndroidGame game) {
-      super(game);
+   public ImageTexture() {
+      super();
       setTex(new float[]{
             1.0f, 0.0f,
             1.0f, 1.0f,

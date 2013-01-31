@@ -29,12 +29,14 @@ public class DemoGame extends AndroidGame {
       // TODO Auto-generated method stub
       this.androidScreen = loader;
       System.out.println("Setting initial screen...");
+      /*
       GameObj c = new GameObj();
       Log.i("", "TTT " + c.intersect( new float[]{0, 3}));
       c.orientation = 90;
       c.cy = 100;
       Log.i("", "TTT " + c.intersect( new float[]{0, 102}));
       Log.i("", "TTT " + c.intersect( new float[]{-3, 100}));
+      */
    }
    
    @Override

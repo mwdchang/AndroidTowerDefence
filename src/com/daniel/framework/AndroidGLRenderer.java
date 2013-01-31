@@ -41,20 +41,24 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
       // Set the background frame color
       GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-      
+      androidGame.renderEngine.init(); 
    }
    
    
    @Override
    public void onDrawFrame(GL10 unused) {
       // Check if anything needs initialization
-      if (false ==androidGame.androidScreen.doneInit) {
+      if (false == androidGame.androidScreen.doneInit) {
          androidGame.androidScreen.init();
          androidGame.androidScreen.doneInit = true;
       }
       
-      androidGame.androidScreen.update(0);
-      androidGame.androidScreen.render(0);   
+      if (androidGame.androidScreen.doneInit) 
+         androidGame.androidScreen.update(0);
+      
+      if (androidGame.androidScreen.doneInit) 
+         androidGame.renderEngine.render();
+         //androidGame.androidScreen.render(0);   
    }
 
 

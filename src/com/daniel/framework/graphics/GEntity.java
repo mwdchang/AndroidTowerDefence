@@ -1,12 +1,14 @@
-package com.daniel.demo;
+package com.daniel.framework.graphics;
+import com.daniel.framework.graphics.ImageTexture;
+
 import android.opengl.*;
 import android.util.Log;
 
-public class GameObj {
+public class GEntity {
    public static float P2R = (float)(Math.PI / 180.0);
    
    
-   public GameObj() {
+   public GEntity() {
       cx = cy = 0.0f;
       orientation = 0.0f;
       width = 1.0f;
@@ -34,11 +36,11 @@ public class GameObj {
       
       Matrix.setRotateM(m, 0, orientation, 0, 0, -1.0f);
       Matrix.multiplyMV(r, 0, m, 0, p1, 0);
-      
-      return "TTT (" + r[0] + ", " + r[1] + ")";
+      return "";
    }
    
    public float cx, cy; 
    public float orientation;
    public float width, height;
+   public int textureId;
 }

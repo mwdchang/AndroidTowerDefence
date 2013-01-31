@@ -20,11 +20,9 @@ import android.opengl.GLUtils;
 ////////////////////////////////////////////////////////////////////////////////
 public class BaseTexture {
    public int BYTE_PER_FLOAT = 4;
-   public AndroidGame androidGame;
    public int textureID;
     
-   public BaseTexture(AndroidGame game) {
-      androidGame = game;
+   public BaseTexture() {
       //textureID = loadGLTexture(R.drawable.ic_launcher);
       //textureID = loadGLTexture("IMG_5656.JPG");
       initShader();

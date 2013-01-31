@@ -23,7 +23,7 @@ public class SquareScreen extends AndroidScreen {
    }   
    
    public void init() {
-      img= new ImageTexture(androidGame);   
+      img= new ImageTexture();   
       img.setDimension(0.2f, 0.2f, 1.0f, 1.0f);
       img.textureID = DemoLoader.TX_DEMO;
             

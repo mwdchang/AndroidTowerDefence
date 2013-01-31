@@ -1,10 +1,14 @@
 package com.daniel.demo;
 
+import java.util.List;
+
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
+import com.daniel.framework.TouchEvent;
+import com.daniel.framework.graphics.GEntity;
 import com.daniel.framework.graphics.Polygon;
 
 public class LoadingScreen extends AndroidScreen {
@@ -17,15 +21,26 @@ public class LoadingScreen extends AndroidScreen {
    public float x = 0.0f;
    public float y = 0.0f;
    public float dx, dy;
+   
+   public GEntity e1;
 
    public LoadingScreen(AndroidGame game) {
       androidGame = game;
-      dy = (float)(Math.random() - 0.5) * 0.25f;
-      dx = (float)(Math.random() - 0.5) * 0.25f;
+      dy = (float)(Math.random() - 0.5) * 0.15f;
+      dx = (float)(Math.random() - 0.5) * 0.15f;
    }
    
    @Override
    public void update(float dTime) {
+      List<TouchEvent> list = androidGame.androidTouchHandler.getTouchEvents();
+      for (TouchEvent t : list) {
+         if (t.type == TouchEvent.TOUCH_UP) {
+            androidGame.setScreen( this.next );
+            return;
+         }
+      }
+      
+      
       x += dx;
       y += dy;
       
@@ -45,11 +60,14 @@ public class LoadingScreen extends AndroidScreen {
       //square.setDrawOrder(new short[]{ 0, 1, 2});
       square.setColour(1.0f, 0.0f, 0.5f, 1.0f);
    }
+   
+   
+   
+   
 
    @Override
    public void render(float dTime) {
       GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-      
       GLES20.glViewport(0, 0, androidGame.width, androidGame.height);
       
       Matrix.orthoM(mProjMatrix, 0, -1, 1, -1, 1, -1, 1);
@@ -84,6 +102,15 @@ public class LoadingScreen extends AndroidScreen {
    public void init() {
       System.out.println(">>>>> in Loading Screen Init");
       DemoLoader.TX_DEMO = DemoLoader.loadGLTexture(androidGame, "IMG_5656.JPG");         
+      
+      e1 = new GEntity();
+      e1.cx = 100.0f;
+      e1.cy = 100f;
+      e1.width = 100;
+      e1.height = 100;
+      e1.textureId = DemoLoader.TX_DEMO;
+      
+      androidGame.renderEngine.addObject(e1);
       
       square = new Polygon();
       triangle = new Polygon();   

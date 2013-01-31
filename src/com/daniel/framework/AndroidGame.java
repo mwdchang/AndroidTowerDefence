@@ -1,5 +1,6 @@
 package com.daniel.framework;
 import com.daniel.framework.graphics.AssetLoader;
+import com.daniel.framework.graphics.RenderEngine;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -26,6 +27,7 @@ public abstract class AndroidGame extends Activity {
    public AndroidGLView androidView;
    public AndroidGraphics androidGraphics;
    public AndroidTouchHandler androidTouchHandler;
+   public RenderEngine renderEngine;
    
    //public WakeLock wakeLock;
    
@@ -52,10 +54,12 @@ public abstract class AndroidGame extends Activity {
       boolean isPortrait = this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
       
       // Setting up for the canvas
+      /*
       int frameBufferWidth = isPortrait ? 800: 1280;
       int frameBufferHeight = isPortrait ? 1280: 800;      
       Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Config.RGB_565);
       androidGraphics = new AndroidGraphics( this.getAssets(), frameBuffer);
+      */
       
       if (this.detectOpenGLES20()) {
          System.out.println(">>>> OpenGL ES20 detected");   
@@ -63,6 +67,7 @@ public abstract class AndroidGame extends Activity {
          System.out.println(">>>> OpenGL ES20 NOT detected");   
       }
       
+      renderEngine = new RenderEngine(this);
       androidView = new AndroidGLView(this);
       
       // Setup input and touch handlers

@@ -57,8 +57,8 @@ public class TriangleScreen extends AndroidScreen {
       //Matrix.orthoM(mProjMatrix, 0, -1, 1, -h/w, h/w, -1, 1);
       //Matrix.orthoM(mProjMatrix, 0, -1, 1, -20, 20, -1, 1);
       //Matrix.orthoM(mProjMatrix, 0, -w, w, -h, h, -1, 1);
-      //Matrix.orthoM(mProjMatrix, 0, -w, w, -h, h, -1, 1);
-      Matrix.orthoM(mProjMatrix, 0, 0, w, 0, h, -1, 1);
+      Matrix.orthoM(mProjMatrix, 0, -w, w, -h, h, -1, 1);
+      //Matrix.orthoM(mProjMatrix, 0, 0, w, 0, h, -1, 1);
       //Matrix.orthoM(mProjMatrix, 0, -1, 1, -1, 1, -1, 1);
       
 
