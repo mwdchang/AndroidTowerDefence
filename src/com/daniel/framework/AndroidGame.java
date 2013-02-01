@@ -27,6 +27,7 @@ public abstract class AndroidGame extends Activity {
    public AndroidGLView androidView;
    public AndroidGraphics androidGraphics;
    public AndroidTouchHandler androidTouchHandler;
+   public AndroidSoundManager androidSoundManager;
    public RenderEngine renderEngine;
    
    //public WakeLock wakeLock;
@@ -53,19 +54,15 @@ public abstract class AndroidGame extends Activity {
       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
       boolean isPortrait = this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
       
-      // Setting up for the canvas
       /*
-      int frameBufferWidth = isPortrait ? 800: 1280;
-      int frameBufferHeight = isPortrait ? 1280: 800;      
-      Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Config.RGB_565);
-      androidGraphics = new AndroidGraphics( this.getAssets(), frameBuffer);
-      */
-      
       if (this.detectOpenGLES20()) {
          System.out.println(">>>> OpenGL ES20 detected");   
       } else {
          System.out.println(">>>> OpenGL ES20 NOT detected");   
       }
+      */
+      
+      androidSoundManager = new AndroidSoundManager(this);
       
       renderEngine = new RenderEngine(this);
       androidView = new AndroidGLView(this);

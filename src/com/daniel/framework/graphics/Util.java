@@ -6,14 +6,21 @@ public class Util {
    
    // Convert screen coordinate into normalized coord in the range of [-1, 1]
    public static float[] screen2normal(AndroidGame game, float[] coord) {
+      /*
+      float nx = coord[0] - game.width;
+      float ny = game.height - coord[1];
+      return new float[]{ nx /(game.width), ny/(game.height)};
+      */
       float nx = coord[0] - 0.5f*game.width;
-      float ny = 0.5f*game.height - coord[1];
+      coord[1] = game.height - coord[1];
+      float ny = coord[1] - 0.5f*game.height;
       return new float[]{ nx /(0.5f*game.width), ny/(0.5f*game.height)};
+      
    }
    
-   // TODO
+   // Take a normalize coord [-1, 1] to the game's coordinate 
    public static float[] normal2game(AndroidGame game, float[] coord) {
-      return new float[]{0, 0};
+      return new float[]{ coord[0]*game.width, coord[1]*game.height};
    }
    
    // Convert a screen coordinate into a game coordinate

@@ -10,6 +10,7 @@ import com.daniel.framework.AndroidScreen;
 import com.daniel.framework.TouchEvent;
 import com.daniel.framework.graphics.GEntity;
 import com.daniel.framework.graphics.Polygon;
+import com.daniel.framework.graphics.Util;
 
 public class LoadingScreen extends AndroidScreen {
    
@@ -40,8 +41,16 @@ public class LoadingScreen extends AndroidScreen {
       List<TouchEvent> list = androidGame.androidTouchHandler.getTouchEvents();
       for (TouchEvent t : list) {
          if (t.type == TouchEvent.TOUCH_UP) {
-            androidGame.setScreen( this.next );
-            return;
+            float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
+            
+            if (e1.intersect( point ) == true ) {
+               androidGame.androidSoundManager.playSound(DemoLoader.SFX_DEMO1, 0.4f, 0.4f);   
+            } else if (e2.intersect( point ) == true ) {
+               androidGame.androidSoundManager.playSound(DemoLoader.SFX_DEMO2, 0.4f, 0.4f);   
+            } else {
+               androidGame.setScreen( this.next );
+               return;
+            }
          }
       }
       
@@ -101,17 +110,20 @@ public class LoadingScreen extends AndroidScreen {
       DemoLoader.TX_DEMO = DemoLoader.loadGLTexture(androidGame, "IMG_5656.JPG");         
       DemoLoader.TX_DEMO2 = DemoLoader.loadGLTexture(androidGame, "IMG_5790.JPG");         
       
+      DemoLoader.SFX_DEMO1 = androidGame.androidSoundManager.loadSound("chime.wav");
+      DemoLoader.SFX_DEMO2 = androidGame.androidSoundManager.loadSound("blip.wav");
+      
       e1 = new GEntity();
-      e1.cx = 100.0f;
-      e1.cy = 100f;
-      e1.width = 100;
-      e1.height = 100;
+      e1.cx = (float)Math.random()*200f-100f;
+      e1.cy = (float)Math.random()*200f-100f;
+      e1.width = 120;
+      e1.height = 120;
       
       e2 = new GEntity();
-      e2.cx = 100.0f;
-      e2.cy = 100f;
-      e2.width = 50;
-      e2.height = 50;
+      e2.cx = (float)Math.random()*200f-100f;
+      e2.cy = (float)Math.random()*200f-100f;
+      e2.width = 80;
+      e2.height = 80;
     
       this.doneInit = true;      
    }

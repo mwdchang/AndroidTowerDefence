@@ -63,7 +63,7 @@ public class AndroidTouchHandler implements OnTouchListener {
                     isTouched[i] = true;
                     id[i] = pointerId;
                     touchEventsBuffer.add(touchEvent);
-                    Log.i("", "TTT " + touchEvent.x + "," + touchEvent.y);
+                    //Log.i("", "TTT " + touchEvent.x + "," + touchEvent.y);
                     break;
 
                 case MotionEvent.ACTION_UP:

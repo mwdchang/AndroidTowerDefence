@@ -2,10 +2,13 @@ package com.daniel.demo;
 
 import java.util.List;
 
+import android.util.Log;
+
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
 import com.daniel.framework.TouchEvent;
 import com.daniel.framework.graphics.GEntity;
+import com.daniel.framework.graphics.Util;
 
 public class LoadingScreen2 extends AndroidScreen {
    
@@ -18,8 +21,20 @@ public class LoadingScreen2 extends AndroidScreen {
       List<TouchEvent> list = androidGame.androidTouchHandler.getTouchEvents();
       for (TouchEvent t : list) {
          if (t.type == TouchEvent.TOUCH_UP) {
-            androidGame.setScreen( this.next );
-            return;
+            float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
+            
+            Log.i("", "TTT1 " + t.x + ", " + t.y);
+            Log.i("", "TTT2 " + point[0] + ", " + point[1]);
+            
+            if (e1.intersect(point) == true) {
+               e1.height -= 4;    
+            } else if (e2.intersect(point) == true) {
+               androidGame.setScreen( this.next );
+               return;
+            } else {
+               e1.height = 200;
+            }
+            
          }
       }      
       
