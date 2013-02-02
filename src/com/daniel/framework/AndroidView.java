@@ -42,7 +42,7 @@ public class AndroidView extends SurfaceView implements Runnable {
          startTime = System.nanoTime();         
          
          androidGame.androidScreen.update(dTime);
-         androidGame.androidScreen.render(dTime);
+         //androidGame.androidScreen.render(dTime);
          
          
          Canvas canvas = holder.lockCanvas();
