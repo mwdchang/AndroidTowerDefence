@@ -44,11 +44,6 @@ public class LoadingScreen2 extends AndroidScreen {
    }
 
    @Override
-   public void render(float dTime) {
-      // TODO Auto-generated method stub
-   }
-
-   @Override
    public void pause() {
       // TODO Auto-generated method stub
    }

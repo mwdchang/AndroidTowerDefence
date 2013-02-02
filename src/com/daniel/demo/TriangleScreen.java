@@ -44,35 +44,7 @@ public class TriangleScreen extends AndroidScreen {
    public void update(float dTime) {
    }
 
-   @Override
-   public void render(float dTime) {
-      // Draw background color 
-      GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-
-      // Set the camera position (View matrix)
-      float ratio = (float)androidGame.height/(float)androidGame.width;
-      float w = androidGame.width;
-      float h = androidGame.height;
-      //Matrix.orthoM(mProjMatrix, 0, -ratio, ratio, -1, 1, -1, 1);
-      //Matrix.orthoM(mProjMatrix, 0, -1, 1, -h/w, h/w, -1, 1);
-      //Matrix.orthoM(mProjMatrix, 0, -1, 1, -20, 20, -1, 1);
-      //Matrix.orthoM(mProjMatrix, 0, -w, w, -h, h, -1, 1);
-      Matrix.orthoM(mProjMatrix, 0, -w, w, -h, h, -1, 1);
-      //Matrix.orthoM(mProjMatrix, 0, 0, w, 0, h, -1, 1);
-      //Matrix.orthoM(mProjMatrix, 0, -1, 1, -1, 1, -1, 1);
-      
-
-
-      Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
-      Matrix.multiplyMM(mMVPMatrix, 0, mRotationMatrix, 0, mProjMatrix, 0);
-
-      triangle.matrix = mMVPMatrix;
-      //triangle.matrix = mProjMatrix;
-      triangle.render();      
-      mAngle += 1.0f;
-   }
    
-
    @Override
    public void pause() {
       // TODO Auto-generated method stub

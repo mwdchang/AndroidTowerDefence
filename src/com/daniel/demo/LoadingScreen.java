@@ -81,14 +81,6 @@ public class LoadingScreen extends AndroidScreen {
       
    }
    
-   
-   
-   
-
-   @Override
-   public void render(float dTime) {
-      GLES20.glViewport(0, 0, androidGame.width, androidGame.height);
-   }
 
    @Override
    public void pause() {

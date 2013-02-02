@@ -35,23 +35,6 @@ public class SquareScreen extends AndroidScreen {
       // TODO Auto-generated method stub
    }
 
-   @Override
-   public void render(float dTime) {
-      // Draw background color
-      GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-
-      // Set the camera position (View matrix)
-      //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-      Matrix.orthoM(mProjMatrix, 0, -1, 1, -1, 1, -1, 1);
-      Matrix.setLookAtM(mVMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-
-      // Calculate the projection and view transformation
-      Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
-
-      img.matrix = mMVPMatrix;      
-      img.render();
-   }
-   
 
    @Override
    public void pause() {
