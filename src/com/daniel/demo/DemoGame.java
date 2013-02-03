@@ -1,9 +1,13 @@
 package com.daniel.demo;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.daniel.framework.AndroidGame;
+import com.daniel.gamelogic.GameLogic;
 
 public class DemoGame extends AndroidGame {
    
@@ -11,8 +15,12 @@ public class DemoGame extends AndroidGame {
    public TriangleScreen triangle = new TriangleScreen(this);
    public SquareScreen square = new SquareScreen(this);
    */
+
    public LoadingScreen loader = new LoadingScreen(this);
    public LoadingScreen2 loader2 = new LoadingScreen2(this);
+   
+   private Timer m_timer = new Timer();
+   private GameLogic m_gameLogic = new GameLogic();
    
    public DemoGame() {
       super();
@@ -45,5 +53,20 @@ public class DemoGame extends AndroidGame {
       super.onStop();
       this.setScreen( loader );
    }
+   
+   //Update GameLogic
+   class TaskUpdateGameLogic extends TimerTask {
 
+        @Override
+        public void run() {
+        	m_gameLogic.Update();
+        }
+   };   
+
+   public void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       m_timer = new Timer();
+       m_timer.schedule(new TaskUpdateGameLogic(), 0,500);
+   }   
+   
 }
