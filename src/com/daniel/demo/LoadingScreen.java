@@ -118,8 +118,6 @@ public class LoadingScreen extends AndroidScreen {
       e2.height = 80;
       
 //      androidGame.androidSoundManager.loadMusic("Look_On.mp3");
-    
-      this.doneInit = true;      
    }
 
 }

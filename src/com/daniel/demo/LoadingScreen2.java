@@ -74,8 +74,6 @@ public class LoadingScreen2 extends AndroidScreen {
       e2.cx = 0;
       e2.cy = 210;
       e2.textureId = DemoLoader.TX_DEMO2;
-      
-      this.doneInit = true;
    }
    
    public GEntity e1;
