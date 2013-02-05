@@ -55,7 +55,7 @@ public class AndroidGLView extends GLSurfaceView {
       }
       */
       
-      requestRender();
+      //requestRender();
       return true;   
    }
 

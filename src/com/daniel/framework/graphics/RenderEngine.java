@@ -34,8 +34,10 @@ public class RenderEngine {
       float h = androidGame.height;
       Matrix.orthoM(mProj, 0, -w, w, -h, h, -1, 1);
       
+//      Log.i("Test", "Test " + entityList.size());
       for (GEntity e : entityList) {
          Matrix.setIdentityM(mModel, 0); 
+         
          Matrix.translateM(mModel, 0, e.cx, e.cy, 0);
          Matrix.rotateM(mModel, 0, e.orientation, 0, 0, 1);
          

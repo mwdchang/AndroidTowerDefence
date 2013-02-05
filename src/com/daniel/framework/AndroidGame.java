@@ -14,6 +14,7 @@ import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -37,12 +38,14 @@ public abstract class AndroidGame extends Activity {
    public int width;
    public int height;
    
+   public long updateInterval = 50;
+   
    
    private boolean detectOpenGLES20() {
       ActivityManager am =
           (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
       ConfigurationInfo info = am.getDeviceConfigurationInfo();
-      System.out.println(">>>> " + info.reqGlEsVersion );
+      //>>> " + info.reqGlEsVersion );
       return (info.reqGlEsVersion >= 0x20000);
    }
    
@@ -126,13 +129,21 @@ public abstract class AndroidGame extends Activity {
       this.androidScreen.pause();
       this.androidScreen.displose();
       
+      // On the safe side, flush the engine incase it trys to render
+      // non-existent stuff
+      this.renderEngine.clearEngine();
+      
       screen.resume();
-      screen.update(0);
+      //screen.update(0);
       this.androidScreen = screen;
    }
    
    // Must be implemented by the child
    public abstract void setInitScreen(); 
+   
+   public void setUpdateInterval(long t) {
+      updateInterval = t;   
+   }
       
   
 }

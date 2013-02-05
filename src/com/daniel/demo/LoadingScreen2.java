@@ -59,6 +59,7 @@ public class LoadingScreen2 extends AndroidScreen {
 
    @Override
    public void init() {
+      System.out.println(">>>>> in Loading Screen2 Init");
       // TODO Auto-generated method stub
       e1 = new GEntity();
       e1.width = androidGame.width/2;

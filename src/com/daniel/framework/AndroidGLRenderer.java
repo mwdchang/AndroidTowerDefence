@@ -36,6 +36,8 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
    public AndroidGame androidGame;
 
    private static final String TAG = "MyGLRenderer";
+   
+   private long prevTime;
     
     
    public AndroidGLRenderer(AndroidGame game) {
@@ -47,11 +49,14 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
       // Set the background frame color
       GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
       androidGame.renderEngine.init(); 
+      
+      prevTime = System.currentTimeMillis();
    }
    
    
    @Override
    public void onDrawFrame(GL10 unused) {
+      
       // Check if anything needs initialization
       if (false == androidGame.androidScreen.doneInit) {
          androidGame.androidScreen.init();
@@ -59,8 +64,14 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
       }
       
       // Should always update first before rendering
-      if (androidGame.androidScreen.doneInit) 
-         androidGame.androidScreen.update(0);
+      if (androidGame.androidScreen.doneInit) {
+         long interval = System.currentTimeMillis() - prevTime;
+         
+         if (interval >= androidGame.updateInterval) {
+            androidGame.androidScreen.update(interval);
+            prevTime = System.currentTimeMillis();
+         }
+      }
       
       if (androidGame.androidScreen.doneInit) 
          androidGame.renderEngine.render();
