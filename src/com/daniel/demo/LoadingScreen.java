@@ -116,6 +116,8 @@ public class LoadingScreen extends AndroidScreen {
       e2.cy = (float)Math.random()*200f-100f;
       e2.width = 80;
       e2.height = 80;
+      
+      androidGame.androidSoundManager.loadMusic("Look_On.mp3");
     
       this.doneInit = true;      
    }

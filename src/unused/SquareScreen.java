@@ -1,8 +1,9 @@
-package com.daniel.demo;
+package unused;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
+import com.daniel.demo.DemoLoader;
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
 import com.daniel.framework.graphics.ImageTexture;

@@ -1,16 +1,15 @@
 package com.daniel.framework;
 
-import android.view.MotionEvent;
-
 ////////////////////////////////////////////////////////////////////////////////
-// Represents one view/screen
+// Represents one screen in the game activity
 ////////////////////////////////////////////////////////////////////////////////
 public abstract class AndroidScreen {
-   public abstract void update(float dTime);
-   //public abstract void render(float dTime);
+   
+   
    public abstract void pause();
    public abstract void resume();
    public abstract void displose();
+   
    
    ////////////////////////////////////////////////////////////////////////////////
    // Any openGL related initializations should go here,
@@ -20,11 +19,19 @@ public abstract class AndroidScreen {
    public abstract void init();
    
    ////////////////////////////////////////////////////////////////////////////////
-   // Touch event handler
+   // This is the main part of the AndroidScreen, each update cycle
+   // should do the following, in order:
+   // 1) Grab and process the touch events
+   // 2) Update any game state or logic
+   // 3) Clear rendering engine
+   // 4) Add entities to rendering engine
    ////////////////////////////////////////////////////////////////////////////////
-   //public abstract void handleEvent(MotionEvent e); 
+   public abstract void update(float dTime);
    
    
+   ////////////////////////////////////////////////////////////////////////////////
+   // Generic navigation
+   ////////////////////////////////////////////////////////////////////////////////
    public AndroidScreen next;
    public AndroidScreen prev;
    

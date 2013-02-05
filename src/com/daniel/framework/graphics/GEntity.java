@@ -1,9 +1,11 @@
 package com.daniel.framework.graphics;
-import com.daniel.framework.graphics.ImageTexture;
-
 import android.opengl.*;
-import android.util.Log;
 
+
+////////////////////////////////////////////////////////////////////////////////
+// This act as a simple textured entity that can be send to the rendering
+// engine.
+////////////////////////////////////////////////////////////////////////////////
 public class GEntity {
    public static float P2R = (float)(Math.PI / 180.0);
    
@@ -15,6 +17,10 @@ public class GEntity {
       height = 3.0f;
    }
    
+   
+   ////////////////////////////////////////////////////////////////////////////////
+   // Point-Quad intersection
+   ////////////////////////////////////////////////////////////////////////////////
    public boolean intersect(float[] coord) {
       float m[] = new float[16];
       float i[] = new float[]{ coord[0]-cx, coord[1]-cy, 0, 1};
@@ -29,6 +35,7 @@ public class GEntity {
       return false; 
    }
    
+   /*
    public String toString() {
       float r[] = new float[4];
       float m[] = new float[16];
@@ -38,9 +45,10 @@ public class GEntity {
       Matrix.multiplyMV(r, 0, m, 0, p1, 0);
       return "";
    }
+   */
    
-   public float cx, cy; 
-   public float orientation;
-   public float width, height;
-   public int textureId;
+   public float cx, cy;          // Center X,Y
+   public float orientation;     // Heading
+   public float width, height;   // The width and height of the texture
+   public int textureId;         // The texture identifier
 }

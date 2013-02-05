@@ -1,4 +1,6 @@
-package com.daniel.framework;
+package unused;
+
+import com.daniel.framework.AndroidGame;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

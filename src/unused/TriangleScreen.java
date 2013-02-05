@@ -1,4 +1,4 @@
-package com.daniel.demo;
+package unused;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;

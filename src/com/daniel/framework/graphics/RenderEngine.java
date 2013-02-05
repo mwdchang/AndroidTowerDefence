@@ -9,7 +9,12 @@ import android.util.Log;
 import com.daniel.framework.AndroidGame;
 
 ////////////////////////////////////////////////////////////////////////////////
-// 
+// Rendering engine.
+// The rendering engine takes in a list of rendering objects, interpret them
+// into OpenGL commands and sends them through to the graphics card.
+//
+// Currently supported objects:
+// - GEntity
 ////////////////////////////////////////////////////////////////////////////////
 public class RenderEngine {
    
@@ -64,7 +69,8 @@ public class RenderEngine {
    private AndroidGame androidGame;
    private ImageTexture texture;
    private ArrayList<GEntity> entityList = new ArrayList<GEntity>();
-   private float mProj[] = new float[16];
-   private float mModel[] = new float[16];
-   private float mMVP[] = new float[16];
+   
+   private float mProj[] = new float[16];    // Projection matrix
+   private float mModel[] = new float[16];   // Model matrix
+   private float mMVP[] = new float[16];     // Model-view-projection matrix
 }

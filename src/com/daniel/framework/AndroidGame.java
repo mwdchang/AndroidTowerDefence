@@ -1,4 +1,6 @@
 package com.daniel.framework;
+import unused.AndroidGraphics;
+
 import com.daniel.framework.graphics.AssetLoader;
 import com.daniel.framework.graphics.RenderEngine;
 
@@ -93,6 +95,7 @@ public abstract class AndroidGame extends Activity {
       //wakeLock.acquire();
       if (androidScreen == null) System.out.println("Oh crap!!!");
       androidScreen.resume();
+      androidSoundManager.onResume();
       //androidView.resume();
    }
    
@@ -101,18 +104,21 @@ public abstract class AndroidGame extends Activity {
       super.onPause();
       //wakeLock.release();
       androidScreen.pause();
-      //androidView.pause();
+      androidSoundManager.onPause();
    }
    
    @Override
    public void onStop() {
       super.onStop();
+      androidSoundManager.onStop();
    }
+   
    
    
    @Override
    public void onDestroy() {
       super.onDestroy();
+      androidSoundManager.onDestroy();
    }
    
    

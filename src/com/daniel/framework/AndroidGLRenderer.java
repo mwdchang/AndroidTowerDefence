@@ -19,12 +19,17 @@ package com.daniel.framework;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import com.daniel.demo.SquareScreen;
-import com.daniel.demo.TriangleScreen;
+import unused.SquareScreen;
+import unused.TriangleScreen;
+
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+////////////////////////////////////////////////////////////////////////////////
+// OpenGL renderer class, responsible for directing AndroidScreen's 
+// init(), update() and render() behaviours
+////////////////////////////////////////////////////////////////////////////////
 public class AndroidGLRenderer implements GLSurfaceView.Renderer {
    
    
@@ -53,52 +58,29 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
          androidGame.androidScreen.doneInit = true;
       }
       
+      // Should always update first before rendering
       if (androidGame.androidScreen.doneInit) 
          androidGame.androidScreen.update(0);
       
       if (androidGame.androidScreen.doneInit) 
          androidGame.renderEngine.render();
-         //androidGame.androidScreen.render(0);   
    }
 
 
    @Override 
    public void onSurfaceChanged(GL10 unused, int width, int height) {
-        // Adjust the viewport based on geometry changes,
-        // such as screen rotation
+        // Adjust the viewport based on geometry changes, such as screen rotation
         GLES20.glViewport(0, 0, width, height);
-        float ratio = (float) width / height;
+        
+        //float ratio = (float) width / height;
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
         //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
         androidGame.width = width;
         androidGame.height = height;
-        
-        System.out.println("=== " + androidGame.width);
-        System.out.println("=== " + androidGame.height);
    }
    
-
-
-    /**
-     * Utility method for debugging OpenGL calls. Provide the name of the call
-     * just after making it:
-     *
-     * <pre>
-     * mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
-     * MyGLRenderer.checkGlError("glGetUniformLocation");</pre>
-     *
-     * If the operation is not successful, the check throws an error.
-     *
-     * @param glOperation - Name of the OpenGL call to check.
-     */
-    public static void checkGlError(String glOperation) {
-        int error;
-        while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-            Log.e(TAG, glOperation + ": glError " + error);
-            throw new RuntimeException(glOperation + ": glError " + error);
-        }
-    }
+   
 }
 
  

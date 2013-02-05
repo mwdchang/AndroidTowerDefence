@@ -11,6 +11,9 @@ import android.view.View.OnTouchListener;
 import com.daniel.framework.Pool;
 import com.daniel.framework.Pool.PoolObjectFactory;
 
+////////////////////////////////////////////////////////////////////////////////
+// Tracks multi-touch input
+////////////////////////////////////////////////////////////////////////////////
 public class AndroidTouchHandler implements OnTouchListener {
     private static final int MAX_TOUCHPOINTS = 10;
     

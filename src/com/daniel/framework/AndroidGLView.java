@@ -1,7 +1,8 @@
 package com.daniel.framework;
 
 
-import com.daniel.demo.SquareScreen;
+import unused.SquareScreen;
+
 import com.daniel.framework.graphics.Util;
 
 import android.app.ActivityManager;
@@ -11,6 +12,10 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
 
+////////////////////////////////////////////////////////////////////////////////
+// The default View for the AndroidGame
+// All work are delegated to AndroidGLRenderer and AndoidTouchHandler
+////////////////////////////////////////////////////////////////////////////////
 public class AndroidGLView extends GLSurfaceView {
    
    public AndroidGLRenderer renderer;
