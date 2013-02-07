@@ -62,6 +62,8 @@ public class RenderEngine {
          font.matrix = mMVP;
          font.render();
       }
+      
+      GLES20.glFlush();
      
    }
    
