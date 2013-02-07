@@ -5,9 +5,16 @@ import java.io.InputStream;
 import com.daniel.framework.AndroidGame;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 
 ////////////////////////////////////////////////////////////////////////////////   
@@ -73,4 +80,62 @@ public class AssetLoader {
       bitmap.recycle();
       return textures[0];
    }
+   
+   public static GEntity createStaticFont(AndroidGame game, String str) {
+      Typeface tf = Typeface.createFromAsset(game.getAssets(), "din1451m.ttf");
+      Paint paint = new Paint();   
+      paint.setAntiAlias(true);
+      paint.setTextSize(80);
+      paint.setARGB(255, 255, 255, 255);
+      paint.setTypeface(tf);
+      paint.setStyle(Style.FILL_AND_STROKE);
+      
+      float bottom = paint.getFontMetrics().bottom;
+      Log.i("TT", "BOttom: " + bottom);
+      
+      // get font metrics
+      Rect bounds = new Rect();
+      paint.getTextBounds(str, 0, str.length(), bounds);
+      
+      //Bitmap bitmap = Bitmap.createBitmap( bounds.width(), bounds.height(), Bitmap.Config.ALPHA_8 );
+      Bitmap bitmap = Bitmap.createBitmap( bounds.width(), bounds.height(), Config.ARGB_8888);
+      Log.i("Test", "Mutable : " + bitmap.isMutable()); 
+      //bitmap.eraseColor( 0x000FF00 );                // Set Transparent Background (ARGB)
+      
+      Canvas canvas = new Canvas();           // Create Canvas for Rendering to Bitmap
+      canvas.setBitmap(bitmap);
+      //canvas.drawCircle(0, 0, 1000, paint);
+      canvas.drawText(str, 0, bounds.height()-bottom, paint);
+      
+      
+      // generate a new texture
+      int[] textures = new int[1];                  // Array to Get Texture Id
+      
+      GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+      GLES20.glGenTextures( 1, textures, 0 );           // Generate New Texture
+
+      // setup filters for texture
+      GLES20.glBindTexture( GLES20.GL_TEXTURE_2D, textures[0] );  // Bind Texture
+      GLES20.glTexParameterf( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST );  // Set Minification Filter
+      GLES20.glTexParameterf( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR );  // Set Magnification Filter
+      //GLES20.glTexParameterf( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE );  // Set U Wrapping
+      //GLES20.glTexParameterf( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE );  // Set V Wrapping
+
+      // load the generated bitmap onto the texture
+      GLUtils.texImage2D( GLES20.GL_TEXTURE_2D, 0, bitmap, 0 );  // Load Bitmap to Texture
+      GLES20.glBindTexture( GLES20.GL_TEXTURE_2D, 0 );      // Unbind Texture
+
+      // release the bitmap
+      bitmap.recycle();      
+
+      Log.i("Test", "bounds " + bounds.width() + ", " + bounds.height() + " : " + textures[0]);
+      
+      GEntity g = new GEntity();
+      g.width = bounds.width()/2;
+      g.height = bounds.height()/2;
+      g.textureId = textures[0];
+      
+      return g;
+   }
+   
 }

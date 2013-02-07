@@ -13,8 +13,6 @@ public class GEntity {
    public GEntity() {
       cx = cy = 0.0f;
       orientation = 0.0f;
-      width = 1.0f;
-      height = 3.0f;
    }
    
    
@@ -47,6 +45,7 @@ public class GEntity {
    }
    */
    
+   public float colour[] = new float[]{1, 1, 1, 1};
    public float cx, cy;          // Center X,Y
    public float orientation;     // Heading
    public float width, height;   // The width and height of the texture

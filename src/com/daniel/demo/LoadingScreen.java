@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
@@ -63,6 +64,13 @@ public class LoadingScreen extends AndroidScreen {
       e2.orientation -= 2;
       androidGame.renderEngine.addObject(e2);
       
+      
+      DemoLoader.FN_LOADING.cx = 100;
+      DemoLoader.FN_LOADING.cy = 100;
+      DemoLoader.FN_LOADING.orientation = e2.orientation;
+      DemoLoader.FN_LOADING.colour = new float[]{ 0, 1, 0, 1};
+      androidGame.renderEngine.addFont(DemoLoader.FN_LOADING);
+      
       e1.cx += dx;
       e1.cy += dy;
       
@@ -104,6 +112,8 @@ public class LoadingScreen extends AndroidScreen {
       
       DemoLoader.SFX_DEMO1 = androidGame.androidSoundManager.loadSound("chime.wav");
       DemoLoader.SFX_DEMO2 = androidGame.androidSoundManager.loadSound("blip.wav");
+      
+      DemoLoader.FN_LOADING = DemoLoader.createStaticFont(androidGame, "Loading Stuff");
       
       e1 = new GEntity();
       e1.cx = (float)Math.random()*200f-100f;

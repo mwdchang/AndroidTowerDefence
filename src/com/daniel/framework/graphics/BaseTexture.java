@@ -26,10 +26,17 @@ public class BaseTexture {
       //textureID = loadGLTexture(R.drawable.ic_launcher);
       //textureID = loadGLTexture("IMG_5656.JPG");
       initShader();
+      colour = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
    }
    
 
    
+   //////////////////////////////////////////////////////////////////////////////// 
+   // Set colour
+   //////////////////////////////////////////////////////////////////////////////// 
+   public void setColour(float f[]) {
+      colour = f;
+   }
    
    //////////////////////////////////////////////////////////////////////////////// 
    // Set the vertex coordinates
@@ -100,6 +107,7 @@ public class BaseTexture {
       texcoordHandle = GLES20.glGetAttribLocation(shaderObj.programID, "inTexcoord");
       matrixHandle   = GLES20.glGetUniformLocation(shaderObj.programID, "uMVPMatrix");
       tex1Handle     = GLES20.glGetUniformLocation(shaderObj.programID, "tex1");
+      colourHandle   = GLES20.glGetUniformLocation(shaderObj.programID, "uColour");
       
       GLES20.glEnableVertexAttribArray(positionHandle);
       GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
@@ -109,6 +117,8 @@ public class BaseTexture {
       
       GLES20.glUniformMatrix4fv(matrixHandle, 1, false, matrix, 0);
       GLES20.glUniform1i(tex1Handle, 0); 
+      GLES20.glUniform4fv(colourHandle, 1, colour, 0);
+      
       
       if (this.drawCount > 0) {
          GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawCount, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
@@ -129,6 +139,8 @@ public class BaseTexture {
    
    public float[] coord;
    public float[] matrix; 
+   
+   public float[] colour;
    
    public int vertexStride;
    public int texcoordStride;
@@ -157,8 +169,9 @@ public class BaseTexture {
          "precision mediump float;" +
          "varying lowp vec2 outTexcoord; " + 
          "uniform sampler2D tex1;" +
+         "uniform vec4 uColour;" +
          "void main() {" +
          //"  gl_FragColor = vec4(outTexcoord.x, 0.4, 0.4, 1.0);" +
-         "  gl_FragColor = texture2D(tex1, outTexcoord);" +
+         "  gl_FragColor = texture2D(tex1, outTexcoord) * uColour;" +
          "}";
 }

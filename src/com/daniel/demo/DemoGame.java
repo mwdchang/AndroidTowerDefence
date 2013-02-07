@@ -24,7 +24,7 @@ public class DemoGame extends AndroidGame {
    
    public DemoGame() {
       super();
-      this.setUpdateInterval(50);
+      this.setUpdateInterval(25);
       
       // Setup navigation
       loader.next = loader2;
