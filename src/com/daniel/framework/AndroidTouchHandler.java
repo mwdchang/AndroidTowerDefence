@@ -6,6 +6,7 @@ import java.util.List;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 
 import com.daniel.framework.Pool;
@@ -14,7 +15,7 @@ import com.daniel.framework.Pool.PoolObjectFactory;
 ////////////////////////////////////////////////////////////////////////////////
 // Tracks multi-touch input
 ////////////////////////////////////////////////////////////////////////////////
-public class AndroidTouchHandler implements OnTouchListener {
+public class AndroidTouchHandler implements OnTouchListener, OnLongClickListener {
     private static final int MAX_TOUCHPOINTS = 10;
     
     boolean[] isTouched = new boolean[MAX_TOUCHPOINTS];
@@ -34,6 +35,12 @@ public class AndroidTouchHandler implements OnTouchListener {
         };
         touchEventPool = new Pool<TouchEvent>(factory, 100);
         view.setOnTouchListener(this);
+        view.setOnLongClickListener(this);
+    }
+    
+    @Override
+    public boolean onLongClick(View arg0) {
+      return false;
     }
 
     @Override
@@ -150,4 +157,5 @@ public class AndroidTouchHandler implements OnTouchListener {
         }
         return -1;
     }
+
 }

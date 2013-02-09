@@ -6,7 +6,6 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-import com.daniel.demo.R;
 import com.daniel.framework.AndroidGame;
 
 import android.graphics.Bitmap;

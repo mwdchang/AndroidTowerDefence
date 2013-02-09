@@ -1,6 +1,10 @@
 package com.daniel.framework.graphics;
 
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 
 import com.daniel.framework.AndroidGame;
 
@@ -141,5 +145,49 @@ public class AssetLoader {
       
       return g;
    }
+   
+   
+   
+   ////////////////////////////////////////////////////////////////////////////////
+   // Create a radial blur as a texture
+   ////////////////////////////////////////////////////////////////////////////////
+   public static int createRadialBlur() {
+      int h = 256;
+      int w = 256;
+      int h2 = 128;
+      int w2 = 128;
+      int channel = 4;
+      int texId[] = new int[1];
+      
+      //ByteBuffer b = GLBuffers.newDirectByteBuffer(h*w*channel);
+      ByteBuffer b = ByteBuffer.allocateDirect(h*w*channel*4);
+      b.order(ByteOrder.nativeOrder());
+      
+      for (int x=0; x < w; x++) {
+         for (int y=0; y < h; y++) {
+            int d = (int)Math.sqrt(  (x-w2)*(x-w2) + (y-h2)*(y-h2) );   
+            float c = 255-(d*2);
+            if (c < 0) c = 0;
+            b.put((byte)c);
+            b.put((byte)c);
+            b.put((byte)c);
+            b.put((byte)c);
+         }
+      }
+      b.position(0);
+      
+      
+      GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+      GLES20.glGenTextures(1, texId, 0);
+      GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texId[0]);
+      GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+      GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+      GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, w, h, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, b);
+      //GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, 3, w, h, 0, GLES20.GL_RGBA, GLES20.GL_FLOAT, fb);
+      
+      Log.i("Test", "Texture Blur ID: " + texId[0]);
+      return texId[0];
+   }
+   
    
 }

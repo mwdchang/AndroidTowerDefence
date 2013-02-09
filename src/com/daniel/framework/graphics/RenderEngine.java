@@ -32,6 +32,7 @@ public class RenderEngine {
       GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
    }
    
+   
    public void render() {
       GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
       GLES20.glViewport(0, 0, androidGame.width, androidGame.height);
@@ -40,28 +41,33 @@ public class RenderEngine {
       float h = androidGame.height;
       Matrix.orthoM(mProj, 0, -w, w, -h, h, -1, 1);
       
-      for (GEntity e : entityList) {
-         Matrix.setIdentityM(mModel, 0); 
-         Matrix.translateM(mModel, 0, e.cx, e.cy, 0);
-         Matrix.rotateM(mModel, 0, e.orientation, 0, 0, 1);
-         Matrix.multiplyMM(mMVP, 0, mProj, 0, mModel, 0);
-         texture.textureID = e.textureId;
-         texture.setDimension(-e.width, -e.height, e.width, e.height);
-         texture.matrix = mMVP;
-         texture.render();
-      }
-      
-      for (GEntity e : fontList) {
-         Matrix.setIdentityM(mModel, 0); 
-         Matrix.translateM(mModel, 0, e.cx, e.cy, 0);
-         Matrix.rotateM(mModel, 0, e.orientation, 0, 0, 1);
-         Matrix.multiplyMM(mMVP, 0, mProj, 0, mModel, 0);
-         font.textureID = e.textureId;
-         font.colour = e.colour;
-         font.setDimension(-e.width, -e.height, e.width, e.height);
-         font.matrix = mMVP;
-         font.render();
-      }
+      for (RenderBatch batch : batchList) {
+         batch.setGLState();
+         
+         for (GEntity e : batch.entityList) {
+            Matrix.setIdentityM(mModel, 0); 
+            Matrix.translateM(mModel, 0, e.cx, e.cy, 0);
+            Matrix.rotateM(mModel, 0, e.orientation, 0, 0, 1);
+            Matrix.multiplyMM(mMVP, 0, mProj, 0, mModel, 0);
+            texture.textureID = e.textureId;
+            texture.colour = e.colour;
+            texture.setDimension(-e.width, -e.height, e.width, e.height);
+            texture.matrix = mMVP;
+            texture.render();
+         }
+         
+         for (GEntity e : batch.fontList) {
+            Matrix.setIdentityM(mModel, 0); 
+            Matrix.translateM(mModel, 0, e.cx, e.cy, 0);
+            Matrix.rotateM(mModel, 0, e.orientation, 0, 0, 1);
+            Matrix.multiplyMM(mMVP, 0, mProj, 0, mModel, 0);
+            font.textureID = e.textureId;
+            font.colour = e.colour;
+            font.setDimension(-e.width, -e.height, e.width, e.height);
+            font.matrix = mMVP;
+            font.render();
+         }
+      } // end batchList
       
       GLES20.glFlush();
      
@@ -71,24 +77,41 @@ public class RenderEngine {
       Matrix.setIdentityM(mProj, 0);
       Matrix.setIdentityM(mMVP, 0);
       Matrix.setIdentityM(mModel, 0);
-      entityList.clear();
-      fontList.clear();
+      batchList.clear();
+   }
+   
+   public void newBatch() {
+      batchList.add( new RenderBatch());
+   }
+   
+   public void setBatchDepthTest(boolean b) {
+      batchList.get(batchList.size()-1).useDepthTest = b;   
+   }
+   
+   public void setBatchBlend(boolean b) {
+      batchList.get(batchList.size()-1).useBlend = b;   
+   }
+   
+   public void setBatchBlendFunc(int s, int d) {
+      batchList.get(batchList.size()-1).sFactor = s;
+      batchList.get(batchList.size()-1).dFactor = d;
    }
    
    public void addObject(GEntity e) {
-      entityList.add(e);
+      batchList.get(batchList.size()-1).entityList.add(e);
    }
    
    public void addFont(GEntity e) {
-      fontList.add(e);
+      batchList.get(batchList.size()-1).fontList.add(e);
    }
+   
    
    private AndroidGame androidGame;
    private ImageTexture texture;
    private FontTexture font;
    
-   private ArrayList<GEntity> entityList = new ArrayList<GEntity>();
-   private ArrayList<GEntity> fontList = new ArrayList<GEntity>();
+   private ArrayList<RenderBatch> batchList = new ArrayList<RenderBatch>();
+   
    
    private float mProj[] = new float[16];    // Projection matrix
    private float mModel[] = new float[16];   // Model matrix

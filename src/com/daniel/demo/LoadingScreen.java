@@ -56,7 +56,7 @@ public class LoadingScreen extends AndroidScreen {
       }
       
       androidGame.renderEngine.clearEngine();
-      e1.textureId = DemoLoader.TX_DEMO;
+      e1.textureId = DemoLoader.TX_BLUR;
       e1.orientation += 2;
       androidGame.renderEngine.addObject(e1);
      
@@ -109,6 +109,7 @@ public class LoadingScreen extends AndroidScreen {
       System.out.println(">>>>> in Loading Screen Init");
       DemoLoader.TX_DEMO = DemoLoader.loadGLTexture(androidGame, "IMG_5656.JPG");         
       DemoLoader.TX_DEMO2 = DemoLoader.loadGLTexture(androidGame, "IMG_5790.JPG");         
+      DemoLoader.TX_BLUR  = DemoLoader.createRadialBlur();
       
       DemoLoader.SFX_DEMO1 = androidGame.androidSoundManager.loadSound("chime.wav");
       DemoLoader.SFX_DEMO2 = androidGame.androidSoundManager.loadSound("blip.wav");
