@@ -99,21 +99,24 @@ public class AssetLoader {
       paint.setStyle(Style.FILL_AND_STROKE);
       
       float bottom = paint.getFontMetrics().bottom;
-      Log.i("TT", "BOttom: " + bottom);
+      float top = paint.getFontMetrics().top;
       
       // get font metrics
       Rect bounds = new Rect();
       paint.getTextBounds(str, 0, str.length(), bounds);
       
+      int txHeight = (int)(Math.abs(top) + Math.abs(bottom));
+      int txWidth = bounds.width() + 8;
+      
       //Bitmap bitmap = Bitmap.createBitmap( bounds.width(), bounds.height(), Bitmap.Config.ALPHA_8 );
-      Bitmap bitmap = Bitmap.createBitmap( bounds.width(), bounds.height(), Config.ARGB_8888);
+      Bitmap bitmap = Bitmap.createBitmap( txWidth, txHeight, Config.ARGB_8888);
       Log.i("Test", "Mutable : " + bitmap.isMutable()); 
       //bitmap.eraseColor( 0x000FF00 );                // Set Transparent Background (ARGB)
       
       Canvas canvas = new Canvas();           // Create Canvas for Rendering to Bitmap
       canvas.setBitmap(bitmap);
       //canvas.drawCircle(0, 0, 1000, paint);
-      canvas.drawText(str, 0, bounds.height()-bottom, paint);
+      canvas.drawText(str, 0, txHeight-bottom, paint);
       
       
       // generate a new texture
@@ -136,11 +139,11 @@ public class AssetLoader {
       // release the bitmap
       bitmap.recycle();      
 
-      Log.i("Test", "bounds " + bounds.width() + ", " + bounds.height() + " : " + textures[0]);
+      Log.i("Test", "txbounds " + txWidth + ", " + txHeight + " : " + textures[0]);
       
       GEntity g = new GEntity();
-      g.width = bounds.width()/2;
-      g.height = bounds.height()/2;
+      g.width = txWidth/2;
+      g.height = txHeight/2;
       g.textureId = textures[0];
       
       return g;

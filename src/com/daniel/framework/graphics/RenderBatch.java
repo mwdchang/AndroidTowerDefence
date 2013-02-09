@@ -21,7 +21,7 @@ public class RenderBatch {
    
    
    public boolean useBlend = true;
-   public boolean useDepthTest = true;
+   public boolean useDepthTest = false;
    public int sFactor = GLES20.GL_SRC_ALPHA;
    public int dFactor = GLES20.GL_ONE_MINUS_SRC_ALPHA;
    

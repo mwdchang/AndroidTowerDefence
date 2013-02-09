@@ -39,6 +39,7 @@ public class ParticleScreen extends AndroidScreen {
    @Override
    public void init() {
       ParticleAssets.TX_COMET = ParticleAssets.createRadialBlur();
+      ParticleAssets.TX_FONT = ParticleAssets.createStaticFont(androidGame, "Particle Test");
       comet = new Comet(50);
       comet.scale = 5;
    }
@@ -93,6 +94,18 @@ public class ParticleScreen extends AndroidScreen {
          
          androidGame.renderEngine.addObject(e);
       }
+      
+      ////////////////////////////////////////////////////////////////////////////////
+      // Second batch
+      ////////////////////////////////////////////////////////////////////////////////
+      androidGame.renderEngine.newBatch();
+      androidGame.renderEngine.setBatchDepthTest(false);
+      androidGame.renderEngine.setBatchBlend(true);
+      ParticleAssets.TX_FONT.cx = 0;
+      ParticleAssets.TX_FONT.cy = 0;
+      ParticleAssets.TX_FONT.colour = new float[]{1, 0, 0, 0.5f};
+      androidGame.renderEngine.addFont( ParticleAssets.TX_FONT );
+      
    }
    
 
