@@ -9,12 +9,14 @@ import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
 import com.daniel.framework.TouchEvent;
 import com.daniel.framework.effects.Comet;
+import com.daniel.framework.effects.Nova;
 import com.daniel.framework.graphics.GEntity;
 import com.daniel.framework.graphics.Util;
 
 public class ParticleScreen extends AndroidScreen {
    
    public Comet comet;
+   public Nova nova;
    private float distX=0, distY=0;
    private float oldX=0, oldY=0;
    
@@ -34,16 +36,18 @@ public class ParticleScreen extends AndroidScreen {
 
    @Override
    public void displose() {
-   }
+   } 
 
    @Override
    public void init() {
-      ParticleAssets.TX_COMET = ParticleAssets.createRadialBlur();
+      ParticleAssets.TX_COMET = ParticleAssets.createRadialBlur(); 
       ParticleAssets.TX_FONT = ParticleAssets.createStaticFont(androidGame, "Particle Test");
+      ParticleAssets.TX_NOVA = ParticleAssets.loadGLTexture(androidGame, "exp1.JPG");
       comet = new Comet(50);
       comet.scale = 5;
    }
 
+   
    
    
    @Override
@@ -60,6 +64,12 @@ public class ParticleScreen extends AndroidScreen {
             distY = point[1];
             oldX = comet.cx;
             oldY = comet.cy;
+            
+            nova = new Nova(1);
+            nova.cx = distX;
+            nova.cy = distY;
+            nova.scale = 100;
+            
             break;
          }
       }      
@@ -69,6 +79,8 @@ public class ParticleScreen extends AndroidScreen {
          comet.cy += (distY-oldY)*0.02;
       }
       comet.update();
+      
+      if (nova != null && nova.p[0].life > 0) nova.update();
       
       
       ////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +106,17 @@ public class ParticleScreen extends AndroidScreen {
          
          androidGame.renderEngine.addObject(e);
       }
+      
+      if (nova != null && nova.p[0].life > 0) {
+         GEntity novaEntity = new GEntity();
+         novaEntity.cx = nova.cx;
+         novaEntity.cy = nova.cy;
+         novaEntity.width = (1.0f - nova.p[0].life)*nova.scale;
+         novaEntity.height = (1.0f - nova.p[0].life)*nova.scale;
+         novaEntity.textureId = ParticleAssets.TX_NOVA;
+         androidGame.renderEngine.addObject(novaEntity); 
+      }
+      
       
       ////////////////////////////////////////////////////////////////////////////////
       // Second batch
