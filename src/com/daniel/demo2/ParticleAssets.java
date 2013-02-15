@@ -9,4 +9,5 @@ public class ParticleAssets extends AssetLoader {
    public static int TX_PLANET;
    
    public static GEntity TX_FONT;
+   public static int TX_NOVA;
 }
