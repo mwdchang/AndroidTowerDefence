@@ -7,6 +7,7 @@ import td.TDEnemy;
 import td.TDGame;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
@@ -36,6 +37,7 @@ public class ParticleScreen extends AndroidScreen {
 
    @Override
    public void resume() { 
+      TDGame.inst().init();
    }
 
    @Override

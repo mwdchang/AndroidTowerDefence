@@ -115,11 +115,10 @@ public abstract class AndroidGame extends Activity {
    @Override
    public void onResume() {
       super.onResume();
-      //wakeLock.acquire();
-      if (androidScreen == null) System.out.println("Oh crap!!!");
+      
       androidScreen.resume();
       androidSoundManager.onResume();
-      //androidView.resume();
+      Log.i("TT", "TT onResume");
    }
    
    @Override
@@ -128,12 +127,14 @@ public abstract class AndroidGame extends Activity {
       //wakeLock.release();
       androidScreen.pause();
       androidSoundManager.onPause();
+      Log.i("TT", "TT onPause");
    }
    
    @Override
    public void onStop() {
       super.onStop();
       androidSoundManager.onStop();
+      Log.i("TT", "TT onStop");
    }
    
    

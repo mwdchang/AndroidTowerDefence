@@ -12,9 +12,14 @@ import td.util.TDEnemyCreator;
 public class TDGame {
    
    private TDGame() {
+      init();
+   }
+   
+   public void init() {
+      levelList.clear();
+      
       TDLevel levelTest = new TDLevel();
       TDWave waveTest = new TDWave();
-      //waveTest.add( TDEnemyCreator.createNormalEnemy(10), TDWave.WAVE_TOP);
       
       waveTest.add( TDNormalEnemy.class, 15, TDWave.WAVE_TOP);
       levelTest.waveList.add( waveTest );
