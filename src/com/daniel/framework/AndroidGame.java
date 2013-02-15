@@ -11,6 +11,7 @@ import android.content.pm.ConfigurationInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -38,6 +39,9 @@ public abstract class AndroidGame extends Activity {
    public int width;
    public int height;
    
+   public int deviceWidth;
+   public int deviceHeight;
+   
    public long updateInterval = 50;
    
    
@@ -58,6 +62,22 @@ public abstract class AndroidGame extends Activity {
       this.requestWindowFeature(Window.FEATURE_NO_TITLE);
       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
       boolean isPortrait = this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+      
+      
+      this.deviceWidth = getWindowManager().getDefaultDisplay().getWidth();
+      this.deviceHeight = getWindowManager().getDefaultDisplay().getHeight();
+      
+      // Hardwire for now
+      this.width = this.deviceWidth; 
+      this.height = this.deviceHeight;
+      
+      /* API 13
+      Point size = new Point();
+      this.getWindowManager().getDefaultDisplay().getSize(size);
+      this.deviceWidth = size.x;
+      this.deviceHeight = size.y;
+      */
+      
       
       /*
       if (this.detectOpenGLES20()) {

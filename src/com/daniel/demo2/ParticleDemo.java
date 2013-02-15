@@ -1,5 +1,7 @@
 package com.daniel.demo2;
 
+import td.TDGame;
+
 import com.daniel.framework.AndroidGame;
 
 public class ParticleDemo extends AndroidGame {
@@ -9,6 +11,7 @@ public class ParticleDemo extends AndroidGame {
    public ParticleDemo() {
       super();
       this.setUpdateInterval(20);
+      TDGame.inst();
    }
    
    

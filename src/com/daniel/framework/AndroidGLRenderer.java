@@ -87,8 +87,8 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
         //Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-        androidGame.width = width;
-        androidGame.height = height;
+        androidGame.deviceWidth = width;
+        androidGame.deviceHeight = height;
    }
    
    

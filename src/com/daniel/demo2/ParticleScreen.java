@@ -1,10 +1,13 @@
 package com.daniel.demo2;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import td.TDEnemy;
+import td.TDGame;
 
 import android.opengl.GLES20;
 
-import com.daniel.demo.DemoLoader;
 import com.daniel.framework.AndroidGame;
 import com.daniel.framework.AndroidScreen;
 import com.daniel.framework.TouchEvent;
@@ -15,6 +18,7 @@ import com.daniel.framework.graphics.Util;
 public class ParticleScreen extends AndroidScreen {
    
    public Comet comet;
+   public GEntity planet = new GEntity();
    private float distX=0, distY=0;
    private float oldX=0, oldY=0;
    
@@ -29,7 +33,7 @@ public class ParticleScreen extends AndroidScreen {
    }
 
    @Override
-   public void resume() {
+   public void resume() { 
    }
 
    @Override
@@ -40,6 +44,8 @@ public class ParticleScreen extends AndroidScreen {
    public void init() {
       ParticleAssets.TX_COMET = ParticleAssets.createRadialBlur();
       ParticleAssets.TX_FONT = ParticleAssets.createStaticFont(androidGame, "Particle Test");
+      ParticleAssets.TX_SHIP = ParticleAssets.loadGLTexture(androidGame, "ship.JPG");
+      ParticleAssets.TX_PLANET = ParticleAssets.loadGLTexture(androidGame, "planet.JPG");
       comet = new Comet(50);
       comet.scale = 5;
    }
@@ -70,6 +76,14 @@ public class ParticleScreen extends AndroidScreen {
       }
       comet.update();
       
+      ////////////////////////////////////////////////////////////////////////////////
+      // Test
+      ////////////////////////////////////////////////////////////////////////////////
+      ArrayList<TDEnemy> enemyList = TDGame.inst().levelList.get(0).waveList.get(0).enemyList;
+      for (int i=0; i < enemyList.size(); i++) {
+         enemyList.get(i).cy -= 1;   
+      }
+      
       
       ////////////////////////////////////////////////////////////////////////////////
       // Setting up rendering properties
@@ -95,9 +109,31 @@ public class ParticleScreen extends AndroidScreen {
          androidGame.renderEngine.addObject(e);
       }
       
+      for (int i=0; i < enemyList.size(); i++) {
+         GEntity e = new GEntity();   
+         e.cx = enemyList.get(i).cx;
+         e.cy = enemyList.get(i).cy;
+         e.width = 60;
+         e.height = 60;
+         e.textureId = ParticleAssets.TX_SHIP;
+         //e.colour = new float[]{1.0f, 0.0f, 0.0f, 0.8f};
+         e.colour = new float[]{1.0f, 1.0f, 1.0f, 0.8f};
+         androidGame.renderEngine.addObject(e);
+      }
+       
+      
+      planet.cx = 0;
+      planet.cy = 0;
+      planet.width = 80;
+      planet.height = 80;
+      planet.textureId = ParticleAssets.TX_PLANET;
+      androidGame.renderEngine.addObject( planet );
+      
+      
       ////////////////////////////////////////////////////////////////////////////////
       // Second batch
       ////////////////////////////////////////////////////////////////////////////////
+      /*
       androidGame.renderEngine.newBatch();
       androidGame.renderEngine.setBatchDepthTest(false);
       androidGame.renderEngine.setBatchBlend(true);
@@ -105,6 +141,7 @@ public class ParticleScreen extends AndroidScreen {
       ParticleAssets.TX_FONT.cy = 0;
       ParticleAssets.TX_FONT.colour = new float[]{1, 0, 0, 0.5f};
       androidGame.renderEngine.addFont( ParticleAssets.TX_FONT );
+      */
       
    }
    

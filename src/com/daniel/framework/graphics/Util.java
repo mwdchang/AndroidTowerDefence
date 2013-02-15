@@ -11,10 +11,10 @@ public class Util {
       float ny = game.height - coord[1];
       return new float[]{ nx /(game.width), ny/(game.height)};
       */
-      float nx = coord[0] - 0.5f*game.width;
-      coord[1] = game.height - coord[1];
-      float ny = coord[1] - 0.5f*game.height;
-      return new float[]{ nx /(0.5f*game.width), ny/(0.5f*game.height)};
+      float nx = coord[0] - 0.5f*game.deviceWidth;
+      coord[1] = game.deviceHeight - coord[1];
+      float ny = coord[1] - 0.5f*game.deviceHeight;
+      return new float[]{ nx /(0.5f*game.deviceWidth), ny/(0.5f*game.deviceHeight)};
       
    }
    

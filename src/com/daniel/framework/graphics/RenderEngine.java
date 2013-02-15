@@ -35,7 +35,7 @@ public class RenderEngine {
    
    public void render() {
       GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-      GLES20.glViewport(0, 0, androidGame.width, androidGame.height);
+      GLES20.glViewport(0, 0, androidGame.deviceWidth, androidGame.deviceHeight);
       
       float w = androidGame.width;
       float h = androidGame.height;
@@ -69,7 +69,7 @@ public class RenderEngine {
          }
       } // end batchList
       
-      GLES20.glFlush();
+      //GLES20.glFlush();
      
    }
    

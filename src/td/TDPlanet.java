@@ -1,0 +1,16 @@
+package td;
+
+////////////////////////////////////////////////////////////////////////////////
+// The home planet
+////////////////////////////////////////////////////////////////////////////////
+public class TDPlanet {
+   
+   // Basic attributes
+   public float cx;
+   public float cy;
+   public int health;
+   
+   public int shield;
+   public int remainingShots;
+   public int maxShots;
+}
