@@ -3,12 +3,13 @@ package unused;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.daniel.demo.DemoLoader;
-import com.daniel.framework.AndroidGame;
-import com.daniel.framework.AndroidScreen;
-import com.daniel.framework.graphics.ImageTexture;
-import com.daniel.framework.graphics.Polygon;
-import com.daniel.framework.graphics.BaseTexture;
+import com.androidG.framework.android.AndroidGame;
+import com.androidG.framework.android.AndroidScreen;
+import com.androidG.framework.graphics.BaseTexture;
+import com.androidG.framework.graphics.ImageTexture;
+import com.androidG.framework.graphics.Polygon;
+
+import demos.demo1.DemoLoader;
 
 public class SquareScreen extends AndroidScreen {
    

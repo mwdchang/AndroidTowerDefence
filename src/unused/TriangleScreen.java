@@ -3,9 +3,9 @@ package unused;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.daniel.framework.AndroidGame;
-import com.daniel.framework.AndroidScreen;
-import com.daniel.framework.graphics.Polygon;
+import com.androidG.framework.android.AndroidGame;
+import com.androidG.framework.android.AndroidScreen;
+import com.androidG.framework.graphics.Polygon;
 
 public class TriangleScreen extends AndroidScreen {
    
