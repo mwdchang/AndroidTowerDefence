@@ -8,6 +8,8 @@ package com.androidG.framework.graphics.effects;
 public class Comet extends ParticleCluster {
    
    public float cx=0, cy=0;
+   public float dx, dy;
+   
    public float scale = 1.0f;
 
    public Comet(int num) {

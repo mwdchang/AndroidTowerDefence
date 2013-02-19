@@ -1,4 +1,4 @@
-package demos.demo2;
+package td.run;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +17,13 @@ import com.androidG.framework.graphics.GEntity;
 import com.androidG.framework.graphics.effects.Comet;
 import com.androidG.framework.graphics.effects.Nova;
 
-public class ParticleScreen extends AndroidScreen {
+public class GameScreen extends AndroidScreen {
    
-   public Comet comet;
    public GEntity planet = new GEntity();
-   public Nova nova;
-   private float distX=0, distY=0;
-   private float oldX=0, oldY=0;
    
    
-   public ParticleScreen(AndroidGame game) {
+   public GameScreen(AndroidGame game) {
       androidGame = game;
-      distX = distY = 0;
    }
 
    @Override
@@ -46,13 +41,11 @@ public class ParticleScreen extends AndroidScreen {
 
    @Override
    public void init() {
-      ParticleAssets.TX_COMET = ParticleAssets.createRadialBlur(); 
-      ParticleAssets.TX_FONT = ParticleAssets.createStaticFont(androidGame, "Particle Test");
-      ParticleAssets.TX_SHIP = ParticleAssets.loadGLTexture(androidGame, "ship.JPG");
-      ParticleAssets.TX_PLANET = ParticleAssets.loadGLTexture(androidGame, "planet.JPG");
-      ParticleAssets.TX_NOVA = ParticleAssets.loadGLTexture(androidGame, "exp1.JPG");
-      comet = new Comet(50);
-      comet.scale = 5;
+      TDAssets.TX_COMET = TDAssets.createRadialBlur(); 
+      TDAssets.TX_FONT = TDAssets.createStaticFont(androidGame, "Particle Test");
+      TDAssets.TX_SHIP = TDAssets.loadGLTexture(androidGame, "ship.JPG");
+      TDAssets.TX_PLANET = TDAssets.loadGLTexture(androidGame, "planet.JPG");
+      TDAssets.TX_NOVA = TDAssets.loadGLTexture(androidGame, "exp1.JPG");
    }
 
    
@@ -65,38 +58,10 @@ public class ParticleScreen extends AndroidScreen {
       // Start to update state
       ////////////////////////////////////////////////////////////////////////////////
       List<TouchEvent> list = androidGame.androidTouchHandler.getTouchEvents();
-      for (TouchEvent t : list) {
-         if (t.type == TouchEvent.TOUCH_DOWN) {
-            float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
-            distX = point[0];
-            distY = point[1];
-            oldX = comet.cx;
-            oldY = comet.cy;
-            
-            nova = new Nova(1);
-            nova.cx = distX;
-            nova.cy = distY;
-            nova.scale = 100;
-            
-            break;
-         }
-      }      
       
-      if (Math.sqrt( (comet.cx-distX)*(comet.cx-distX) + (comet.cy-distY)*(comet.cy-distY)) > 15) {
-         comet.cx += (distX-oldX)*0.02;
-         comet.cy += (distY-oldY)*0.02;
-      }
-      comet.update();
       
-      if (nova != null && nova.p[0].life > 0) nova.update();
+      TDGame.inst().updateGame(list);
       
-      ////////////////////////////////////////////////////////////////////////////////
-      // Test
-      ////////////////////////////////////////////////////////////////////////////////
-      ArrayList<TDEnemy> enemyList = TDGame.inst().levelList.get(0).waveList.get(0).enemyList;
-      for (int i=0; i < enemyList.size(); i++) {
-         enemyList.get(i).cy -= 1;   
-      }
       
       
       ////////////////////////////////////////////////////////////////////////////////
@@ -111,27 +76,30 @@ public class ParticleScreen extends AndroidScreen {
       ////////////////////////////////////////////////////////////////////////////////
       // Send the objects to the render engine
       ////////////////////////////////////////////////////////////////////////////////
-      for (int i=0; i < comet.numParticles; i++) {
-         GEntity e = new GEntity();   
-         e.cx = comet.p[i].x;
-         e.cy = comet.p[i].y;
-         e.width  = comet.p[i].life * 50.0f;
-         e.height = comet.p[i].life * 50.0f;
-         e.textureId = ParticleAssets.TX_COMET;
-         e.colour = new float[]{ 0.0f, 0.5f, 0.8f, 0.5f};
-         
-         androidGame.renderEngine.addObject(e);
+      if (TDGame.inst().comet != null) {
+         for (int i=0; i < TDGame.inst().comet.numParticles; i++) {
+            GEntity e = new GEntity();   
+            e.cx = TDGame.inst().comet.p[i].x;
+            e.cy = TDGame.inst().comet.p[i].y;
+            e.width  = TDGame.inst().comet.p[i].life * 50.0f;
+            e.height = TDGame.inst().comet.p[i].life * 50.0f;
+            e.textureId = TDAssets.TX_COMET;
+            e.colour = new float[]{ 0.0f, 0.5f, 0.8f, 0.5f};
+            
+            androidGame.renderEngine.addObject(e);
+         }
       }
       
-      for (int i=0; i < enemyList.size(); i++) {
+      for (TDEnemy enemy  : TDGame.inst().currentEnemies) {
          GEntity e = new GEntity();   
-         e.cx = enemyList.get(i).cx;
-         e.cy = enemyList.get(i).cy;
-         e.width = 60;
-         e.height = 60;
-         e.textureId = ParticleAssets.TX_SHIP;
+         e.cx = enemy.cx;
+         e.cy = enemy.cy;
+         e.width = 30;
+         e.height = 30;
+         e.textureId = TDAssets.TX_SHIP;
          //e.colour = new float[]{1.0f, 0.0f, 0.0f, 0.8f};
-         e.colour = new float[]{1.0f, 1.0f, 1.0f, 0.8f};
+         //e.colour = new float[]{1.0f, 1.0f, 1.0f, 0.8f};
+         e.colour = new float[]{1.0f, (float)(enemy.life/50.0f), (float)(enemy.life/50.0f), 1.0f};
          androidGame.renderEngine.addObject(e);
       }
        
@@ -140,16 +108,16 @@ public class ParticleScreen extends AndroidScreen {
       planet.cy = 0;
       planet.width = 80;
       planet.height = 80;
-      planet.textureId = ParticleAssets.TX_PLANET;
+      planet.textureId = TDAssets.TX_PLANET;
       androidGame.renderEngine.addObject( planet );
       
-      if (nova != null && nova.p[0].life > 0) {
+      if (TDGame.inst().nova != null) {
          GEntity novaEntity = new GEntity();
-         novaEntity.cx = nova.cx;
-         novaEntity.cy = nova.cy;
-         novaEntity.width = (1.0f - nova.p[0].life)*nova.scale;
-         novaEntity.height = (1.0f - nova.p[0].life)*nova.scale;
-         novaEntity.textureId = ParticleAssets.TX_NOVA;
+         novaEntity.cx = TDGame.inst().nova.cx;
+         novaEntity.cy = TDGame.inst().nova.cy;
+         novaEntity.width = (1.0f - TDGame.inst().nova.p[0].life)*TDGame.inst().nova.scale;
+         novaEntity.height = (1.0f - TDGame.inst().nova.p[0].life)*TDGame.inst().nova.scale;
+         novaEntity.textureId = TDAssets.TX_NOVA;
          androidGame.renderEngine.addObject(novaEntity); 
       }
       

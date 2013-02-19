@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="demos.demo2"
+    package="td.run"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -20,7 +20,7 @@
         android:hardwareAccelerated="true">
         
         <activity
-            android:name=".ParticleDemo"
+            android:name=".TowerDefence"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:label="Demo2"
             android:screenOrientation="portrait" >

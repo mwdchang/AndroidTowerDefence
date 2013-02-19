@@ -75,6 +75,9 @@ public class AndroidGLRenderer implements GLSurfaceView.Renderer {
       
       if (androidGame.androidScreen.doneInit) 
          androidGame.renderEngine.render();
+      
+//      androidGame.androidView.requestRender();
+      
    }
 
 

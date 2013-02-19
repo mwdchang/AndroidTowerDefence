@@ -8,4 +8,6 @@ public abstract class TDEnemy {
    public float dx, dy;
    public float orientation;
    public float speed;
+   public float life;
+   public float maxLife;
 }

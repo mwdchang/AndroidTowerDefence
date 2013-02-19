@@ -10,7 +10,7 @@ public class TDWave {
    public TDWave() {
    }
    
-   public void add(Class c, int num, int o) {
+   public TDWave add(Class c, int num, int o) {
       try {
          for (int i=0; i < num ; i++) {
             TDEnemy e = (TDEnemy)c.newInstance();   
@@ -19,6 +19,7 @@ public class TDWave {
             enemyList.add( e );
          }
       } catch (Exception e) {}
+      return this;
    }
    
    // Add an arbitrary number of preset enemies
