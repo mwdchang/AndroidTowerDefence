@@ -1,6 +1,7 @@
 package td;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -55,12 +56,29 @@ public class TDGame {
    public void updateGame(List<TouchEvent> list) {
       updateParticles(list);
       updateEnemies(list);
+      
+      cleanup();
    }
    
    
+   ////////////////////////////////////////////////////////////////////////////////
+   // Remove enemies that are no longer valid
+   ////////////////////////////////////////////////////////////////////////////////
+   public void cleanup() {
+      // Clean up enemies
+      Iterator<TDEnemy> iter = currentEnemies.iterator();
+      while (iter.hasNext()) {
+         if (iter.next().life <= 0) iter.remove();
+      }
+   }
+   
+   
+   ////////////////////////////////////////////////////////////////////////////////
+   // Update enemy position and behaviours, this does not include deletion
+   ////////////////////////////////////////////////////////////////////////////////
    public void updateEnemies(List<TouchEvent> list) {
       for (TDEnemy e : currentEnemies ) {
-         e.cy -= 0.5f;   
+         e.cy -= 0.25f;   
       }
    }
    
@@ -88,8 +106,8 @@ public class TDGame {
       
       if (comet != null) { 
          if (comet != null && Math.sqrt( (comet.cx-distX)*(comet.cx-distX) + (comet.cy-distY)*(comet.cy-distY)) > 15) {
-            comet.cx += comet.dx*3;
-            comet.cy += comet.dy*3;
+            comet.cx += comet.dx*8;
+            comet.cy += comet.dy*8;
             comet.update();
          } else {
             nova = new Nova(1);
