@@ -44,8 +44,11 @@ public class GameScreen extends AndroidScreen {
       TDAssets.TX_COMET = TDAssets.createRadialBlur(); 
       TDAssets.TX_FONT = TDAssets.createStaticFont(androidGame, "Particle Test");
       TDAssets.TX_SHIP = TDAssets.loadGLTexture(androidGame, "ship.JPG");
-      TDAssets.TX_PLANET = TDAssets.loadGLTexture(androidGame, "planet.JPG");
+      TDAssets.TX_PLANET = TDAssets.loadGLTexture(androidGame, "planet.JPG"); 
       TDAssets.TX_NOVA = TDAssets.loadGLTexture(androidGame, "exp1.JPG");
+      
+      // Initialize label
+      TDGame.inst().gameStatusLabel = TDAssets.createStaticFont(androidGame, "Level " + TDGame.inst().currentLevel + " Wave " + TDGame.inst().currentWave);
    }
 
    
@@ -60,7 +63,7 @@ public class GameScreen extends AndroidScreen {
       List<TouchEvent> list = androidGame.androidTouchHandler.getTouchEvents();
       
       
-      TDGame.inst().updateGame(list);
+      TDGame.inst().updateGame(list, dTime);
       
       
       
@@ -120,6 +123,14 @@ public class GameScreen extends AndroidScreen {
          novaEntity.textureId = TDAssets.TX_NOVA;
          androidGame.renderEngine.addObject(novaEntity); 
       }
+      
+      GEntity label = TDGame.inst().gameStatusLabel;
+      label.cx = 000;
+      label.cy = 600;
+      label.colour = new float[]{1, 0, 1, 0.5f};
+      androidGame.renderEngine.addFont(label);
+      
+      
       
       
       ////////////////////////////////////////////////////////////////////////////////

@@ -8,9 +8,11 @@ import java.util.Vector;
 import com.androidG.framework.android.AndroidGame;
 import com.androidG.framework.android.TouchEvent;
 import com.androidG.framework.android.Util;
+import com.androidG.framework.graphics.GEntity;
 import com.androidG.framework.graphics.effects.Comet;
 import com.androidG.framework.graphics.effects.Nova;
 
+import td.run.TDAssets;
 import td.util.TDEnemyCreator;
 
 
@@ -41,23 +43,52 @@ public class TDGame {
       
       TDLevel levelTest = new TDLevel();
       TDWave waveTest = new TDWave();
-      waveTest.add( TDNormalEnemy.class, 15, TDWave.WAVE_TOP);
+      waveTest.add( TDNormalEnemy.class, 1, TDWave.WAVE_TOP);
       levelTest.waveList.add( waveTest );
+      
+      waveTest = new TDWave();
+      waveTest.add( TDNormalEnemy.class, 3, TDWave.WAVE_TOP);
+      levelTest.waveList.add( waveTest );
+      
+      waveTest = new TDWave();
+      waveTest.add( TDNormalEnemy.class, 5, TDWave.WAVE_TOP);
+      levelTest.waveList.add( waveTest );
+      
+      
       levelList.add(levelTest);
       
       // Test
-      currentEnemies.addAll( levelList.get(0).waveList.get(0).enemyList);
+      //currentEnemies.addAll( levelList.get(0).waveList.get(0).enemyList);
+      
+      currentWave = 0;
+      currentLevel = 0;
+      nextWaveTime = 0;
+      
    }
    
    
    ////////////////////////////////////////////////////////////////////////////////
    // Update entry
    ////////////////////////////////////////////////////////////////////////////////
-   public void updateGame(List<TouchEvent> list) {
+   public void updateGame(List<TouchEvent> list, float dTime) {
+      updateNextWave( dTime );
       updateParticles(list);
       updateEnemies(list);
       
       cleanup();
+   }
+   
+   
+   // Increment time counter, check if we should send the next wave of enemies
+   public void updateNextWave(float dTime) {
+      nextWaveTime += dTime;
+      TDWave wave = getCurrentWave();
+      if (wave != null && nextWaveTime >= wave.waveTime) {
+         currentEnemies.addAll( wave.enemyList);
+         nextWaveTime = 0;
+         currentWave ++;
+         gameStatusLabel = TDAssets.createStaticFont(androidGame, "Level " + currentLevel + " Wave " + currentWave);
+      }
    }
    
    
@@ -142,11 +173,34 @@ public class TDGame {
     
    
    
+   ////////////////////////////////////////////////////////////////////////////////
+   // Shortcuts
+   ////////////////////////////////////////////////////////////////////////////////
+   public TDLevel getCurrentLevel() { 
+      if (currentLevel >= levelList.size()) return null;
+      return levelList.get(currentLevel); 
+   }
+   public TDWave  getCurrentWave() { 
+      if (getCurrentLevel() == null) return null;
+      if (currentWave >= getCurrentLevel().waveList.size()) return null;
+      return getCurrentLevel().waveList.get(currentWave); 
+   }
+   
+   
+   
+   
+   
+   
+   
+   // Timer
+   public float nextWaveTime = 0;
+   
    // Objects
    public Comet comet = null;
    public float distX = 0;
    public float distY = 0;
    public Nova nova = null;
+   public GEntity gameStatusLabel;
    
    public TDPlanet planet;
    public ArrayList<TDTower> towerList = new ArrayList<TDTower>();

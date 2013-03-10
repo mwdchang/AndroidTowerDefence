@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class TDWave {
    
    public TDWave() {
+      waveTime = 10000;
    }
    
    public TDWave add(Class c, int num, int o) {
@@ -38,6 +39,7 @@ public class TDWave {
    
    public ArrayList<TDEnemy> enemyList = new ArrayList<TDEnemy>();
    public int origin;
+   public float waveTime; // Time until the next wave
    
    public static final int WAVE_LEFT  = 0;
    public static final int WAVE_RIGHT = 1;
