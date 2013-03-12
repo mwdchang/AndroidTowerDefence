@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import android.util.Log;
+
 import com.androidG.framework.android.AndroidGame;
 import com.androidG.framework.android.TouchEvent;
 import com.androidG.framework.android.Util;
@@ -68,14 +70,34 @@ public class TDGame {
    
    
    ////////////////////////////////////////////////////////////////////////////////
-   // Update entry
+   // Update game 
+   // Note: If UI has been updated, we don't want to further proceed with the touch 
+   // point events.
    ////////////////////////////////////////////////////////////////////////////////
    public void updateGame(List<TouchEvent> list, float dTime) {
-      updateNextWave( dTime );
-      updateParticles(list);
-      updateEnemies(list);
+      updateUI(list);
       
+      if (this.proceedUpdate) updateParticles(list);
+      
+      updateEnemies(list);
+      updateNextWave( dTime );
       cleanup();
+      
+      proceedUpdate = true;
+   }
+   
+   
+   // Check UI
+   public void updateUI(List<TouchEvent> list) {
+      for (TouchEvent t : list) {
+         float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
+         if (toggleTower.intersect(point) && t.type == TouchEvent.TOUCH_DOWN) {
+            Log.e("TTT", "TTT Touching UI");
+            this.showTowerOption = ! this.showTowerOption;   
+            this.proceedUpdate = false;
+            return;
+         }
+      }
    }
    
    
@@ -201,6 +223,18 @@ public class TDGame {
    public float distY = 0;
    public Nova nova = null;
    public GEntity gameStatusLabel;
+   
+   // UI Objects
+   public GEntity toggleTower = new GEntity();
+   public GEntity t1 = new GEntity();
+   public GEntity t2 = new GEntity();
+   
+   
+   // Flags
+   public boolean showTowerOption = false;
+   
+   public boolean proceedUpdate = true;
+   
    
    public TDPlanet planet;
    public ArrayList<TDTower> towerList = new ArrayList<TDTower>();

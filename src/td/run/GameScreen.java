@@ -46,12 +46,15 @@ public class GameScreen extends AndroidScreen {
       TDAssets.TX_SHIP = TDAssets.loadGLTexture(androidGame, "ship.JPG");
       TDAssets.TX_PLANET = TDAssets.loadGLTexture(androidGame, "planet.JPG"); 
       TDAssets.TX_NOVA = TDAssets.loadGLTexture(androidGame, "exp1.JPG");
+      TDAssets.TX_TOWER_TOGGLE = TDAssets.loadGLTexture(androidGame, "towerToggle.JPG");
+      TDAssets.TX_TOWER_1 = TDAssets.loadGLTexture(androidGame, "t1.JPG");
+      TDAssets.TX_TOWER_2 = TDAssets.loadGLTexture(androidGame, "t2.JPG");
       
       // Initialize label
       TDGame.inst().gameStatusLabel = TDAssets.createStaticFont(androidGame, "Level " + TDGame.inst().currentLevel + " Wave " + TDGame.inst().currentWave);
-   }
-
-   
+   } 
+ 
+    
    
    
    @Override
@@ -126,10 +129,38 @@ public class GameScreen extends AndroidScreen {
       
       GEntity label = TDGame.inst().gameStatusLabel;
       label.cx = 000;
-      label.cy = 600;
+      label.cy = 300;
       label.colour = new float[]{1, 0, 1, 0.5f};
       androidGame.renderEngine.addFont(label);
       
+      
+      
+      
+      ////////////////////////////////////////////////////////////////////////////////
+      // Render UI, this should go last
+      ////////////////////////////////////////////////////////////////////////////////
+      TDGame.inst().toggleTower.textureId = TDAssets.TX_TOWER_TOGGLE;
+      TDGame.inst().toggleTower.width = 50;
+      TDGame.inst().toggleTower.height = 50;
+      TDGame.inst().toggleTower.cx = -androidGame.width+50;
+      TDGame.inst().toggleTower.cy = -androidGame.height+50;
+      androidGame.renderEngine.addObject(TDGame.inst().toggleTower);
+      
+      if (TDGame.inst().showTowerOption == true) {
+         TDGame.inst().t1.textureId = TDAssets.TX_TOWER_1;
+         TDGame.inst().t1.width = 50;
+         TDGame.inst().t1.height = 50;
+         TDGame.inst().t1.cx = -androidGame.width+50 + 110;
+         TDGame.inst().t1.cy = -androidGame.height+50; 
+         androidGame.renderEngine.addObject(TDGame.inst().t1);
+         
+         TDGame.inst().t2.textureId = TDAssets.TX_TOWER_2;
+         TDGame.inst().t2.width = 50;
+         TDGame.inst().t2.height = 50;
+         TDGame.inst().t2.cx = -androidGame.width+50 + 220;
+         TDGame.inst().t2.cy = -androidGame.height+50;
+         androidGame.renderEngine.addObject(TDGame.inst().t2);
+      }
       
       
       

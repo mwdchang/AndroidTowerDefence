@@ -9,11 +9,19 @@ public class ImageTexture extends BaseTexture {
    public ImageTexture() {
       super();
       setTex(new float[]{
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f
+      });
+      /*
+      setTex(new float[]{
             1.0f, 0.0f,
             1.0f, 1.0f,
             0.0f, 1.0f,
             0.0f, 0.0f
       });
+      */
       setDrawOrder(new short[]{ 0, 1, 2, 0, 2, 3 });      
    }
    
