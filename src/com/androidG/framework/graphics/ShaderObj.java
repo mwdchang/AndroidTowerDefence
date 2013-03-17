@@ -17,8 +17,8 @@ public class ShaderObj {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
             Log.e(">>>> ", glOperation + ": glError " + error);
-            throw new RuntimeException(glOperation + ": glError " + error);
-        }
+            //throw new RuntimeException(glOperation + ": glError " + error);
+        } 
    }
 
    public int loadShader(int type, String shaderCode){

@@ -2,6 +2,8 @@ package com.androidG.framework.graphics;
 
 import java.util.ArrayList;
 
+import com.androidG.framework.graphics.effects.GEffect;
+
 import android.opengl.GLES20;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,4 +29,5 @@ public class RenderBatch {
    
    public ArrayList<GEntity> entityList = new ArrayList<GEntity>();
    public ArrayList<GEntity> fontList = new ArrayList<GEntity>();
+   public ArrayList<GEffect> effectList = new ArrayList<GEffect>();
 }

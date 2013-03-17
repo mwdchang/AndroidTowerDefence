@@ -11,6 +11,9 @@ public class TDAssets extends AssetLoader {
    public static int TX_TOWER_1;
    public static int TX_TOWER_2;
    
+   public static int TX_TOWER_NORMAL;
+   public static int TX_TOWER_SLOW;
+   
    public static GEntity TX_FONT;
    public static int TX_NOVA;
 }

@@ -3,8 +3,10 @@ package td.run;
 import java.util.ArrayList;
 import java.util.List;
 
+import td.TDConst;
 import td.TDEnemy;
 import td.TDGame;
+import td.TDTower;
 
 import android.opengl.GLES20;
 import android.util.Log;
@@ -15,6 +17,7 @@ import com.androidG.framework.android.TouchEvent;
 import com.androidG.framework.android.Util;
 import com.androidG.framework.graphics.GEntity;
 import com.androidG.framework.graphics.effects.Comet;
+import com.androidG.framework.graphics.effects.Lines;
 import com.androidG.framework.graphics.effects.Nova;
 
 public class GameScreen extends AndroidScreen {
@@ -49,6 +52,8 @@ public class GameScreen extends AndroidScreen {
       TDAssets.TX_TOWER_TOGGLE = TDAssets.loadGLTexture(androidGame, "towerToggle.JPG");
       TDAssets.TX_TOWER_1 = TDAssets.loadGLTexture(androidGame, "t1.JPG");
       TDAssets.TX_TOWER_2 = TDAssets.loadGLTexture(androidGame, "t2.JPG");
+      TDAssets.TX_TOWER_NORMAL = TDAssets.loadGLTexture(androidGame, "tower1.JPG");
+      TDAssets.TX_TOWER_SLOW   = TDAssets.loadGLTexture(androidGame, "tower1.JPG");
       
       // Initialize label
       TDGame.inst().gameStatusLabel = TDAssets.createStaticFont(androidGame, "Level " + TDGame.inst().currentLevel + " Wave " + TDGame.inst().currentWave);
@@ -108,6 +113,37 @@ public class GameScreen extends AndroidScreen {
          e.colour = new float[]{1.0f, (float)(enemy.life/50.0f), (float)(enemy.life/50.0f), 1.0f};
          androidGame.renderEngine.addObject(e);
       }
+      
+      // Make sure the towers are initialized
+      for (TDTower tower : TDGame.inst().towerList) {
+         if (tower.fireEffect == null) tower.fireEffect = new Lines();   
+      }
+      
+      // Render the towers
+      for (TDTower tower : TDGame.inst().towerList) {
+         GEntity e = new GEntity();   
+         e.cx = tower.cx;
+         e.cy = tower.cy;
+         e.width = 40;
+         e.height = 40;
+         e.textureId = TDAssets.TX_TOWER_NORMAL;
+         e.colour = new float[]{1.0f, 0.6f, 0.0f, 0.5f};
+         androidGame.renderEngine.addObject(e);
+      }
+      
+      // Render the tower effects
+      for (TDTower tower : TDGame.inst().towerList) {
+         if (tower.enemy > -1) {
+            TDEnemy e = TDGame.inst().currentEnemies.get( tower.enemy );   
+            tower.fireEffect.setCoord(
+              e.cx, e.cy, 0,
+              tower.cx, tower.cy, 0
+            );
+            tower.fireEffect.setColour(0.5f, 0.2f, 1.0f, 0.5f);
+            
+            androidGame.renderEngine.addEffect(tower.fireEffect);
+         }
+      }
        
       
       planet.cx = 0;
@@ -116,6 +152,7 @@ public class GameScreen extends AndroidScreen {
       planet.height = 80;
       planet.textureId = TDAssets.TX_PLANET;
       androidGame.renderEngine.addObject( planet );
+      
       
       if (TDGame.inst().nova != null) {
          GEntity novaEntity = new GEntity();
@@ -152,6 +189,11 @@ public class GameScreen extends AndroidScreen {
          TDGame.inst().t1.height = 50;
          TDGame.inst().t1.cx = -androidGame.width+50 + 110;
          TDGame.inst().t1.cy = -androidGame.height+50; 
+         if (TDGame.inst().towerToBuild == TDConst.TOWER_NORMAL) {
+            TDGame.inst().t1.colour = new float[]{0.0f, 0.5f, 1.0f, 0.5f};
+         } else {
+            TDGame.inst().t1.colour = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+         }
          androidGame.renderEngine.addObject(TDGame.inst().t1);
          
          TDGame.inst().t2.textureId = TDAssets.TX_TOWER_2;
@@ -159,6 +201,11 @@ public class GameScreen extends AndroidScreen {
          TDGame.inst().t2.height = 50;
          TDGame.inst().t2.cx = -androidGame.width+50 + 220;
          TDGame.inst().t2.cy = -androidGame.height+50;
+         if (TDGame.inst().towerToBuild == TDConst.TOWER_SLOW) {
+            TDGame.inst().t2.colour = new float[]{0.0f, 0.5f, 1.0f, 0.5f};
+         } else {
+            TDGame.inst().t2.colour = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+         }
          androidGame.renderEngine.addObject(TDGame.inst().t2);
       }
       

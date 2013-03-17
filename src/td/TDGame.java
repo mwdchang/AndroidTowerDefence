@@ -80,6 +80,7 @@ public class TDGame {
       if (this.proceedUpdate) updateParticles(list);
       
       updateEnemies(list);
+      updateTower(list);
       updateNextWave( dTime );
       cleanup();
       
@@ -87,8 +88,50 @@ public class TDGame {
    }
    
    
-   // Check UI
+   
+   ////////////////////////////////////////////////////////////////////////////////
+   // Check UI elements for touch actions
+   ////////////////////////////////////////////////////////////////////////////////
    public void updateUI(List<TouchEvent> list) {
+      
+      // Check if a tower is placed
+      if (this.towerToBuild > 0) {
+         for (TouchEvent t : list) {
+            float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
+            if (t.type == TouchEvent.TOUCH_DOWN) {
+               switch(towerToBuild) {
+               case TDConst.TOWER_NORMAL: 
+                  this.towerList.add(new TDNormalTower( point[0], point[1] ));    
+                  this.towerToBuild = 0;
+                  break;
+               case TDConst.TOWER_SLOW:
+                  this.towerList.add(new TDNormalTower( point[0], point[1] ));    
+                  this.towerToBuild = 0;
+                  break;
+               }
+            }
+         }
+      }
+      
+      
+      // Check if a tower build option is touched
+      if (this.showTowerOption == true) {
+         for (TouchEvent t : list) {
+            if (t.type == TouchEvent.TOUCH_DOWN) {
+               float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
+               if (t1.intersect(point)) {
+                  this.towerToBuild = TDConst.TOWER_NORMAL;
+                  this.proceedUpdate = false;
+               }
+               if (t2.intersect(point)) {
+                  this.towerToBuild = TDConst.TOWER_SLOW;
+                  this.proceedUpdate = false;
+               }
+            }
+         }
+      }
+      
+      // Check if the master toggle is touched
       for (TouchEvent t : list) {
          float point[] = Util.screen2game(androidGame, new float[]{t.x, t.y} );
          if (toggleTower.intersect(point) && t.type == TouchEvent.TOUCH_DOWN) {
@@ -98,10 +141,31 @@ public class TDGame {
             return;
          }
       }
+      
+      
+      if (this.showTowerOption == false) {
+         this.towerToBuild = 0;   
+      }
    }
    
    
+   ////////////////////////////////////////////////////////////////////////////////
+   // Update tower, check for targets, upgrades...etc
+   ////////////////////////////////////////////////////////////////////////////////
+   public void updateTower(List<TouchEvent> list) {
+      // Find an enemy to target
+      if (this.currentEnemies.size() > 0) {
+         for (TDTower tower : towerList) {
+            // test
+            tower.enemy = 0;
+         }
+      }
+      
+   }
+   
+   ////////////////////////////////////////////////////////////////////////////////
    // Increment time counter, check if we should send the next wave of enemies
+   ////////////////////////////////////////////////////////////////////////////////
    public void updateNextWave(float dTime) {
       nextWaveTime += dTime;
       TDWave wave = getCurrentWave();
@@ -136,6 +200,9 @@ public class TDGame {
    }
    
    
+   ////////////////////////////////////////////////////////////////////////////////
+   // Update particle effects
+   ////////////////////////////////////////////////////////////////////////////////
    public void updateParticles(List<TouchEvent> list) {
       ////////////////////////////////////////////////////////////////////////////////
       // Update the planet's particle effects
@@ -232,6 +299,7 @@ public class TDGame {
    
    // Flags
    public boolean showTowerOption = false;
+   public int     towerToBuild    = 0; 
    
    public boolean proceedUpdate = true;
    

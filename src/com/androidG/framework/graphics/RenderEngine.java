@@ -3,6 +3,8 @@ package com.androidG.framework.graphics;
 import java.util.ArrayList;
 
 import com.androidG.framework.android.AndroidGame;
+import com.androidG.framework.graphics.effects.GEffect;
+import com.androidG.framework.graphics.effects.Lines;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -27,6 +29,11 @@ public class RenderEngine {
    public void init() {
       texture = new ImageTexture();    
       font = new FontTexture();
+      line = new Lines();
+      line.init();
+      
+      line.setCoord(0.0f, 0.0f, 0.0f, 500.0f, 500.0f, 0.0f);
+      line.setColour(1.0f, 0, 0, 1.0f);
       
       GLES20.glDisable(GLES20.GL_DEPTH_TEST);
       GLES20.glEnable(GLES20.GL_BLEND);
@@ -68,7 +75,26 @@ public class RenderEngine {
             font.matrix = mMVP;
             font.render();
          }
+         
+         for (GEffect e : batch.effectList) {
+            if (e.doneInit == false) {
+               e.init();
+            } else {
+               Matrix.setIdentityM(mModel, 0); 
+               Matrix.multiplyMM(mMVP, 0, mProj, 0, mModel, 0);
+               e.matrix = mMVP;
+               e.render();   
+            }
+         }
       } // end batchList
+      
+      /*
+      Matrix.setIdentityM(mModel, 0); 
+      Matrix.multiplyMM(mMVP, 0, mProj, 0, mModel, 0);
+      line.matrix = mMVP;
+      line.render();
+      */
+      
       
       //GLES20.glFlush();
      
@@ -106,10 +132,15 @@ public class RenderEngine {
       batchList.get(batchList.size()-1).fontList.add(e);
    }
    
+   public void addEffect(GEffect e) {
+      batchList.get(batchList.size()-1).effectList.add(e);
+   }
+   
    
    private AndroidGame androidGame;
    private ImageTexture texture;
    private FontTexture font;
+   private Lines line;
    
    private ArrayList<RenderBatch> batchList = new ArrayList<RenderBatch>();
    
