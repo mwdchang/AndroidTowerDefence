@@ -7,6 +7,7 @@ public class TDNormalTower extends TDTower {
       this.cy = y;
       this.cooldown = 250;   
       this.range = 100;
+      this.baseDamage = 2;
    }
 
 }

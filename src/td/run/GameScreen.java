@@ -35,6 +35,7 @@ public class GameScreen extends AndroidScreen {
 
    @Override
    public void resume() { 
+      TDGame.inst().resetGame();
       TDGame.inst().init(androidGame);
    }
 
@@ -133,13 +134,16 @@ public class GameScreen extends AndroidScreen {
       
       // Render the tower effects
       for (TDTower tower : TDGame.inst().towerList) {
+         if (TDGame.inst().currentEnemies.size() <= 0) break;
          if (tower.enemy > -1) {
             TDEnemy e = TDGame.inst().currentEnemies.get( tower.enemy );   
+            float randomX = (float)(Math.random()*10 - 5);
+            float randomY = (float)(Math.random()*10 - 5);
             tower.fireEffect.setCoord(
-              e.cx, e.cy, 0,
+              e.cx+randomX, e.cy+randomY, 0,
               tower.cx, tower.cy, 0
             );
-            tower.fireEffect.setColour(0.5f, 0.2f, 1.0f, 0.5f);
+            tower.fireEffect.setColour(0.5f, 0.2f, 1.0f, 0.75f);
             
             androidGame.renderEngine.addEffect(tower.fireEffect);
          }
@@ -167,7 +171,7 @@ public class GameScreen extends AndroidScreen {
       GEntity label = TDGame.inst().gameStatusLabel;
       label.cx = 000;
       label.cy = 300;
-      label.colour = new float[]{1, 0, 1, 0.5f};
+      label.colour = new float[]{1, 0, 1, 0.25f};
       androidGame.renderEngine.addFont(label);
       
       

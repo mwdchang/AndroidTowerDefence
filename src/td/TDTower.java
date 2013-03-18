@@ -11,6 +11,8 @@ public abstract class TDTower {
    
    public float cooldown;
    public float range;
+   public float baseDamage;
+   
    public int textureID;
    
    public int enemy = -1;

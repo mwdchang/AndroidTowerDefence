@@ -75,6 +75,9 @@ public class TDGame {
    // point events.
    ////////////////////////////////////////////////////////////////////////////////
    public void updateGame(List<TouchEvent> list, float dTime) {
+      
+      cleanup(); // Make sure there is a "clean slate" before logic processing
+      
       updateUI(list);
       
       if (this.proceedUpdate) updateParticles(list);
@@ -82,7 +85,6 @@ public class TDGame {
       updateEnemies(list);
       updateTower(list);
       updateNextWave( dTime );
-      cleanup();
       
       proceedUpdate = true;
    }
@@ -103,10 +105,12 @@ public class TDGame {
                case TDConst.TOWER_NORMAL: 
                   this.towerList.add(new TDNormalTower( point[0], point[1] ));    
                   this.towerToBuild = 0;
+                  this.proceedUpdate = false;
                   break;
                case TDConst.TOWER_SLOW:
                   this.towerList.add(new TDNormalTower( point[0], point[1] ));    
                   this.towerToBuild = 0;
+                  this.proceedUpdate = false;
                   break;
                }
             }
@@ -153,12 +157,27 @@ public class TDGame {
    // Update tower, check for targets, upgrades...etc
    ////////////////////////////////////////////////////////////////////////////////
    public void updateTower(List<TouchEvent> list) {
+      
+      
       // Find an enemy to target
       if (this.currentEnemies.size() > 0) {
          for (TDTower tower : towerList) {
             // test
-            tower.enemy = 0;
-         }
+            //for (TDEnemy enemy : this.currentEnemies) {
+            tower.enemy = -1;
+            boolean hasTarget = false;
+            for (int i=0; i < currentEnemies.size(); i++) { 
+               TDEnemy enemy = currentEnemies.get(i);
+               if (Util.dist(enemy.cx, enemy.cy, tower.cx, tower.cy) < 200) {
+                  tower.enemy = i;
+                  enemy.life -= tower.baseDamage;
+                  hasTarget = true;
+                  break;
+               }
+            }
+            if (hasTarget == false) tower.enemy = -1;
+            
+         } // end for TDTower
       }
       
    }
@@ -195,7 +214,7 @@ public class TDGame {
    ////////////////////////////////////////////////////////////////////////////////
    public void updateEnemies(List<TouchEvent> list) {
       for (TDEnemy e : currentEnemies ) {
-         e.cy -= 0.25f;   
+         e.cy -= 0.50f;   
       }
    }
    
@@ -260,6 +279,11 @@ public class TDGame {
       }
    }
     
+   
+   public void resetGame() {
+      currentEnemies.clear();
+      towerList.clear();
+   }
    
    
    ////////////////////////////////////////////////////////////////////////////////
